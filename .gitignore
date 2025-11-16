@@ -84,6 +84,9 @@ test-locally.sh
 # Manual testing
 MANUAL_TESTING.md
 
+# Private directory (drafts, notes, unpublished docs)
+.private/
+
 # OS
 .DS_Store
 Thumbs.db
