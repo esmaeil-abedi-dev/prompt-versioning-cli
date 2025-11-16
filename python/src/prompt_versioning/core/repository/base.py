@@ -68,10 +68,10 @@ class PromptRepository:
     # ==================== Commit Operations ====================
 
     def commit(
-        self, message: str, prompt_data: Union[dict[str, Any], Prompt], author: str = "system"
+        self, message: str, prompt_data: Union[dict[str, Any], Prompt], author: str = "system", file_path: Optional[str] = None
     ) -> PromptCommit:
         """Create a new commit with the given prompt."""
-        return self._commit_ops.create_commit(message, prompt_data, author)
+        return self._commit_ops.create_commit(message, prompt_data, author, file_path)
 
     def log(self, max_count: Optional[int] = None) -> list[PromptVersion]:
         """Get commit history."""

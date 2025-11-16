@@ -47,10 +47,9 @@ promptvc init
 promptvc create-prompt
 
 # Or create non-interactively
-promptvc create-prompt --name my-prompt \
+promptvc create-prompt prompts/my-prompt.yaml \
   --system "You are a helpful assistant" \
-  --temperature 0.7 \
-  --non-interactive
+  --temperature 0.7
 
 # Commit your prompt
 promptvc commit -m "Initial prompt" -f prompts/my-prompt.yaml

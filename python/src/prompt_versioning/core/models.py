@@ -65,6 +65,7 @@ class PromptCommit(BaseModel):
     author: str = Field(default="system", description="Author of the commit")
     timestamp: datetime = Field(default_factory=datetime.now, description="Commit timestamp")
     prompt_hash: str = Field(..., description="Hash of the prompt content")
+    file_path: Optional[str] = Field(None, description="Path to the prompt file that was committed")
     tags: list[str] = Field(default_factory=list, description="Tags associated with this commit")
 
     def short_hash(self) -> str:

@@ -27,11 +27,15 @@ def log(max_count: Optional[int], oneline: bool, path: str) -> None:
 
     for version in versions:
         if oneline:
-            click.echo(f"{version.commit.short_hash()} {version.commit.message}")
+            file_info = f" ({version.commit.file_path})" if version.commit.file_path else ""
+            click.echo(f"{version.commit.short_hash()} {version.commit.message}{file_info}")
         else:
             click.echo(f"commit {version.commit.hash}")
             click.echo(f"Author: {version.commit.author}")
             click.echo(f"Date: {version.commit.timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
+
+            if version.commit.file_path:
+                click.echo(f"File: {version.commit.file_path}")
 
             if version.commit.tags:
                 click.echo(f"Tags: {', '.join(version.commit.tags)}")

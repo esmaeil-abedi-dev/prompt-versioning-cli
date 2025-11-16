@@ -33,5 +33,8 @@ def status(path: str) -> None:
     click.echo(f"  Author: {current.commit.author}")
     click.echo(f"  Date: {current.commit.timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
 
+    if current.commit.file_path:
+        click.echo(f"  File: {current.commit.file_path}")
+
     if current.commit.tags:
         click.echo(f"  Tags: {', '.join(current.commit.tags)}")

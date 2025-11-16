@@ -20,7 +20,7 @@ class CommitOperations:
         self.storage = storage
 
     def create_commit(
-        self, message: str, prompt_data: Union[dict[str, Any], Prompt], author: str = "system"
+        self, message: str, prompt_data: Union[dict[str, Any], Prompt], author: str = "system", file_path: Optional[str] = None
     ) -> PromptCommit:
         """
         Create a new commit with the given prompt.
@@ -29,6 +29,7 @@ class CommitOperations:
             message: Commit message describing the change
             prompt_data: Prompt data (dict or Prompt object)
             author: Author of the commit
+            file_path: Path to the file being committed (optional)
 
         Returns:
             Created PromptCommit object
@@ -63,6 +64,7 @@ class CommitOperations:
             author=author,
             timestamp=datetime.now(),
             prompt_hash=prompt_hash,
+            file_path=file_path,
         )
 
         # Save commit and update HEAD

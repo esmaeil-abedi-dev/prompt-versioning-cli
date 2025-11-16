@@ -131,7 +131,7 @@ promptvc init
 # ✓ Initialized prompt repository in .prompt-vc/
 
 # 2. Create your first prompt interactively
-promptvc create-prompt --name support-bot
+promptvc create-prompt prompts/support-bot.yaml
 # 🎨 Creating prompt file interactively...
 # System message: You are a friendly customer support agent.
 # User template: Help me with: {issue}
@@ -140,10 +140,9 @@ promptvc create-prompt --name support-bot
 # ✓ Prompt file created: prompts/support-bot.yaml
 
 # Or create non-interactively
-promptvc create-prompt --name quick-prompt \
+promptvc create-prompt prompts/quick-prompt.yaml \
   --system "You are helpful" \
-  --temperature 0.7 \
-  --non-interactive
+  --temperature 0.7
 
 # 3. Commit the prompt
 promptvc commit -m "Initial support prompt" -f support-prompt.yaml
@@ -202,12 +201,11 @@ promptvc create-prompt
 # ✓ Prompt file created: prompts/support-bot.yaml
 
 # Quick creation with flags
-promptvc create-prompt --name quick-bot \
+promptvc create-prompt prompts/quick-bot.yaml \
   --system "You are helpful" \
   --user-template "Question: {question}" \
   --temperature 0.7 \
-  --max-tokens 500 \
-  --non-interactive
+  --max-tokens 500
 
 # Simple filename (automatically placed in prompts/ directory)
 promptvc create-prompt customer-support.yaml \
@@ -215,7 +213,7 @@ promptvc create-prompt customer-support.yaml \
 # ✓ Creates: prompts/customer-support.yaml
 
 # Append/update existing file
-promptvc create-prompt --file prompts/support-bot.yaml --append
+promptvc create-prompt prompts/support-bot.yaml --append
 
 # Let the agent help you create prompts!
 promptvc agent --create-prompt

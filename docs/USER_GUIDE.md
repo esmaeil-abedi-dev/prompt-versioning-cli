@@ -104,27 +104,23 @@ promptvc create-prompt
 
 ```bash
 # Create with basic settings
-promptvc create-prompt --name my-bot \
+promptvc create-prompt prompts/my-bot.yaml \
   --system "You are a helpful assistant" \
   --user-template "Question: {question}" \
   --temperature 0.7
 
 # Full configuration
-promptvc create-prompt --file prompts/support.yaml \
+promptvc create-prompt prompts/support.yaml \
   --system "You are a customer support agent" \
   --user-template "Customer: {name}, Issue: {issue}" \
   --temperature 0.8 \
   --max-tokens 1000 \
   --top-p 0.95 \
-  --stop-sequences "[END],[DONE]" \
-  --non-interactive
+  --stop-sequences "[END],[DONE]"
 ```
 
 **Options:**
 
-- `--file FILE` / `-f FILE`: Path to prompt file (default: prompts/<name>.yaml)
-- `--name NAME`: Prompt name (for automatic file naming)
-- `--non-interactive`: Skip interactive prompts, use only provided options
 - `--system TEXT`: System message for the LLM
 - `--user-template TEXT`: User template with {variable} placeholders
 - `--temperature FLOAT`: Temperature (0.0-2.0)
@@ -147,9 +143,8 @@ Temperature (0.0-2.0, press Enter to skip): 0.3
 ✓ Prompt file created: prompts/reviewer.yaml
 
 # Quick creation for experienced users
-promptvc create-prompt --name translator \
-  --system "Translate to {target_language}" \
-  --non-interactive
+promptvc create-prompt prompts/translator.yaml \
+  --system "Translate to {target_language}"
 
 # Simple filename (automatically placed in prompts/ directory)
 promptvc create-prompt my-bot.yaml \
@@ -157,7 +152,7 @@ promptvc create-prompt my-bot.yaml \
 # ✓ Creates: prompts/my-bot.yaml
 
 # Update existing file
-promptvc create-prompt --file prompts/support.yaml \
+promptvc create-prompt prompts/support.yaml \
   --temperature 0.9 \
   --append
 
@@ -169,7 +164,7 @@ You → A summarization bot for long articles
 You → Professional and concise
 🤖 I'll create a prompt for you...
 Generated command:
-promptvc create-prompt --name summarizer --system "You are a professional summarization assistant..." --temperature 0.5
+promptvc create-prompt prompts/summarizer.yaml --system "You are a professional summarization assistant..." --temperature 0.5
 Execute this command to create the prompt? [Y/n]:
 ```
 
@@ -225,9 +220,6 @@ promptvc log --max-count 5 --oneline
 promptvc log -n 10
 ```
 
-**Options:**
-- `--limit N`: Show only the last N commits (default: 10)
-
 ### `diff` - Compare Versions
 
 ```bash
@@ -257,6 +249,7 @@ Checkout a specific commit and optionally write the prompt to a file.
 **Options:**
 - `--path PATH`: Repository path (default: current directory)
 - `--output FILE` / `-o FILE`: Write prompt to file
+- `--no-write`: Don't write to file, just show info
 
 **Example:**
 ```bash

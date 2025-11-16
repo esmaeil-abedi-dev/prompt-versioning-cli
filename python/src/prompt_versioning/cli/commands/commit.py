@@ -34,7 +34,7 @@ def commit(file_path: str, message: str, file_option: str, author: str, path: st
 
         # Create commit
         repo = ensure_repository(path)
-        commit_obj = repo.commit(message, prompt_data, author)
+        commit_obj = repo.commit(message, prompt_data, author, file_path=prompt_file)
 
         # Get branch name (always "main" for now)
         branch = "main"

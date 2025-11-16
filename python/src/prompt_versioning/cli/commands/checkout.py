@@ -27,7 +27,8 @@ def checkout(
     """Checkout a specific commit.
 
     FILE_PATH: Optional file to write the checked-out prompt to.
-    If not specified and --no-write is not set, will prompt for filename.
+    If not specified and --no-write is not set, will use the original file path
+    from the commit (if available), otherwise prompt for filename.
     """
     try:
         repo = ensure_repository(path)
@@ -38,11 +39,16 @@ def checkout(
 
         # Determine output file
         output_file = output or file_path
+        
+        # If no output specified, use the file_path from the commit
+        if not output_file and version.commit.file_path:
+            output_file = version.commit.file_path
+            click.echo(f"  Restoring to original file: {output_file}")
 
         # Write prompt to file unless --no-write is specified
         if not no_write:
             if not output_file:
-                # Prompt for filename if not provided
+                # Prompt for filename if not provided and not in commit
                 output_file = click.prompt("Enter filename to write prompt", default="prompt.yaml")
 
             # output_file is now guaranteed to be str
