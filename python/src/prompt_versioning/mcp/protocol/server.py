@@ -133,7 +133,28 @@ class PromptVCMCPServer:
         handler = self.tool_handlers[tool_name]
         result = await handler(arguments)
 
-        return result
+        # Format response according to MCP protocol
+        # The result should be wrapped in a content array with proper formatting
+        if isinstance(result, dict) and "display" in result:
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": result.get("display", ""),
+                    }
+                ],
+                "_meta": result,  # Include full result for reference
+            }
+        
+        # Fallback for results without display field
+        return {
+            "content": [
+                {
+                    "type": "text",
+                    "text": json.dumps(result, indent=2),
+                }
+            ]
+        }
 
     async def handle_resources_list(self, params: dict[str, Any]) -> dict[str, Any]:
         """List available resources."""

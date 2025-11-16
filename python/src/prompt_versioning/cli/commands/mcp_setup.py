@@ -22,9 +22,10 @@ from ..utils import error, info, success
     required=True,
     help="IDE to configure",
 )
-@click.option("--path", default=".promptvc", help="Repository path (default: .promptvc)")
+@click.option("--path", default=".", help="Repository path (default: current directory)")
 @click.option("--output", "-o", help="Output file path (default: IDE-specific location)")
-def mcp_setup(ide: str, path: str, output: Optional[str]):
+@click.option("--init", is_flag=True, help="Initialize repository if it doesn't exist")
+def mcp_setup(ide: str, path: str, output: Optional[str], init: bool):
     """
     Generate MCP server configuration files for different IDEs.
 
@@ -35,11 +36,17 @@ def mcp_setup(ide: str, path: str, output: Optional[str]):
 
     Examples:
 
-        # Generate VSCode config
+        # Generate VSCode config (will warn if repository doesn't exist)
         promptvc mcp-setup --ide vscode
+
+        # Generate config AND initialize repository
+        promptvc mcp-setup --ide vscode --init
 
         # Generate Claude Desktop config
         promptvc mcp-setup --ide claude
+
+        # Custom repository location
+        promptvc mcp-setup --ide vscode --path ./my-prompts
 
         # Custom output location
         promptvc mcp-setup --ide vscode -o ./my-config.json
@@ -47,6 +54,27 @@ def mcp_setup(ide: str, path: str, output: Optional[str]):
     try:
         # Resolve repository path
         repo_path = Path(path).resolve()
+
+        # Check if repository exists
+        from ...core import PromptRepository
+        repo_exists = (repo_path / ".promptvc").exists()
+        
+        if not repo_exists:
+            if init:
+                # Auto-initialize the repository
+                try:
+                    PromptRepository.init(repo_path)
+                    success(f"Initialized repository at {repo_path}/.promptvc/")
+                    repo_exists = True
+                except Exception as e:
+                    error(f"Failed to initialize repository: {e}")
+                    return
+            else:
+                # Warn but continue - MCP server can initialize later
+                click.echo(f"⚠️  Repository not found at {repo_path}/.promptvc/")
+                click.echo(f"   You can initialize it later with: promptvc init --path {repo_path}")
+                click.echo(f"   Or ask Copilot: @workspace /prompt-version initialize repository")
+                click.echo()
 
         # Generate configuration based on IDE
         if ide == "vscode":
@@ -87,15 +115,24 @@ def mcp_setup(ide: str, path: str, output: Optional[str]):
         # Print next steps
         click.echo("\n📝 Next Steps:")
         if ide == "vscode":
-            click.echo("  1. Reload VSCode window")
-            click.echo("  2. Ask Copilot: @workspace /prompt-version init")
-            click.echo("  3. Ask Copilot: @workspace /prompt-version status")
+            click.echo("  1. Reload VSCode window (Cmd+Shift+P → 'Developer: Reload Window')")
+            if not repo_exists:
+                click.echo("  2. Ask Copilot: @workspace /prompt-version initialize repository")
+                click.echo("  3. Ask Copilot: @workspace /prompt-version status")
+            else:
+                click.echo("  2. Ask Copilot: @workspace /prompt-version status")
+                click.echo("  3. Start using prompt versioning with Copilot!")
         elif ide == "claude":
             click.echo("  1. Restart Claude Desktop")
             click.echo("  2. Check for 🔌 icon showing MCP connection")
-            click.echo("  3. Ask Claude to use prompt versioning tools")
+            if not repo_exists:
+                click.echo("  3. Ask Claude to initialize the prompt repository")
+            else:
+                click.echo("  3. Ask Claude to use prompt versioning tools")
         elif ide == "zed":
             click.echo("  1. Restart Zed editor")
+            if not repo_exists:
+                click.echo("  2. Initialize: /prompt-version init")
             click.echo("  2. Use /prompt-version commands in assistant panel")
 
     except Exception as e:

@@ -18,4 +18,4 @@ from ..utils import success
 def init(path: str):
     """Initialize a new prompt repository."""
     init_repository(path)
-    success(f"Initialized prompt repository in {Path(path).resolve()}/.prompt-vc/")
+    success(f"Initialized prompt repository in {Path(path).resolve()}/.promptvc/")
