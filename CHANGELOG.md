@@ -5,11 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2025-11-02
+## [Unreleased]
 
 ### Added
 
-- Initial release
+- Initial project setup and structure
+- Python package implementation with core functionality
+- TypeScript/Node.js bindings
+- CLI commands (init, commit, log, diff, checkout, tag, audit)
+- MCP (Model Context Protocol) server support
+- Agent system with multiple LLM backend support (OpenAI, Anthropic, Ollama)
+- Comprehensive test suite
+- Documentation (README, User Guide, Developer Guide, Contributing Guidelines)
+- GitHub Actions CI/CD pipeline
+- Code of Conduct and Security Policy
+
+### Fixed
+
+- Python linting errors (whitespace and code style issues)
+- TypeScript build configuration
+- Added package-lock.json for reproducible npm builds
+
+### Infrastructure
+
+- Set up GitHub Actions workflow for Python and TypeScript
+- Configured Ruff linter for Python code quality
+- Added test coverage reporting
+
+## [1.0.0] - TBD
+
+Initial release (not yet published). Package will be released once core features are stable and tested.
+
+### Planned for Initial Release
+
 - Core version control functionality (init, commit, log, diff, checkout)
 - Experiment tagging with metadata
 - Audit log generation (JSON and CSV formats)
@@ -19,29 +47,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Content-addressable storage
 - Git-like UX (HEAD, HEAD~N references, short hashes)
 - Complete documentation (CLI reference, YAML schema, GitHub Actions integration, compliance guide)
-- GitHub Actions CI/CD workflow
 - Test suite with >80% coverage
-- MIT License
-- Contributing guidelines
-- Code of Conduct
-- Security policy
+- Published to PyPI and npm registries
 
-### Features
+## [Future Enhancements]
 
-- 🔄 Version control for prompts
-- 📊 Semantic diff engine
-- 🧪 A/B testing support
-- 📝 Compliance audit trails
-- 🔍 Instant rollback
-- 🏷️ Experiment tagging
-- 🐍 Python 3.9+ support
-- 📦 TypeScript/Node.js support
-- 🔐 Content-addressable hashing
-- 📖 Comprehensive documentation
-
-## [Unreleased]
-
-### Planned
+### Post 1.0 Roadmap
 
 - Remote repository sync (like Git remotes)
 - Branch support for parallel experiments
@@ -56,4 +67,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[1.0.0]: https://github.com/yourusername/prompt-versioning-cli/releases/tag/v1.0.0
+<!-- Links will be updated when versions are released -->
