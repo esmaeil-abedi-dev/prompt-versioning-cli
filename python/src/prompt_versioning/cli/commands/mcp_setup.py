@@ -58,7 +58,7 @@ def mcp_setup(ide: str, path: str, output: Optional[str], init: bool):
         # Check if repository exists
         from ...core import PromptRepository
         repo_exists = (repo_path / ".promptvc").exists()
-        
+
         if not repo_exists:
             if init:
                 # Auto-initialize the repository
@@ -73,7 +73,7 @@ def mcp_setup(ide: str, path: str, output: Optional[str], init: bool):
                 # Warn but continue - MCP server can initialize later
                 click.echo(f"⚠️  Repository not found at {repo_path}/.promptvc/")
                 click.echo(f"   You can initialize it later with: promptvc init --path {repo_path}")
-                click.echo(f"   Or ask Copilot: @workspace /prompt-version initialize repository")
+                click.echo("   Or ask Copilot: @workspace /prompt-version initialize repository")
                 click.echo()
 
         # Generate configuration based on IDE

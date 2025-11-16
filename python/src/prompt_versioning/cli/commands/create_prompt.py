@@ -61,7 +61,7 @@ def create_prompt(
             )
 
         file_path_obj = Path(file)
-        
+
         # If the path doesn't include a directory and doesn't start with ./
         # automatically place it in the prompts directory
         if not file_path_obj.parent.name and file_path_obj.parent == Path('.'):

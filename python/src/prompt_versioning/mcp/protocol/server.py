@@ -160,7 +160,7 @@ class PromptVCMCPServer:
         if help_info and isinstance(result, dict):
             if "help_info" not in result:
                 result["help_info"] = help_info
-            
+
             # Add or enhance display field with help info
             if "display" not in result:
                 # Generate display from result data
@@ -189,7 +189,7 @@ class PromptVCMCPServer:
                 ],
                 "_meta": result,  # Include full result for reference
             }
-        
+
         # Fallback for results without display field
         return {
             "content": [

@@ -6,8 +6,7 @@ Licensed under MIT License
 """
 
 import pytest
-
-from prompt_versioning.mcp.handlers.command_helper import CommandHelper, CommandInfo, CommandFlag
+from prompt_versioning.mcp.handlers.command_helper import CommandFlag, CommandHelper, CommandInfo
 from prompt_versioning.mcp.handlers.execute_command import handle_execute_command
 
 
@@ -29,16 +28,16 @@ Options:
 """
         helper = CommandHelper("promptvc")
         info = helper.parse_help_output(help_text)
-        
+
         assert info.command == "promptvc"
         assert len(info.flags) >= 3
-        
+
         # Check message flag
         message_flag = next(f for f in info.flags if f.name == "message")
         assert message_flag.short_form == "-m"
         assert message_flag.long_form == "--message"
         assert message_flag.required is True
-        
+
         # Check file flag
         file_flag = next(f for f in info.flags if f.name == "file")
         assert file_flag.short_form == "-f"
@@ -61,7 +60,7 @@ Commands:
 """
         helper = CommandHelper("promptvc")
         info = helper.parse_help_output(help_text)
-        
+
         assert "init" in info.subcommands
         assert "commit" in info.subcommands
         assert "log" in info.subcommands
@@ -71,7 +70,7 @@ Commands:
     def test_build_command_with_flags(self):
         """Test building command with proper flags."""
         helper = CommandHelper("promptvc")
-        
+
         # Create mock command info
         command_info = CommandInfo(
             command="promptvc",
@@ -94,10 +93,10 @@ Commands:
             ],
             subcommands=[],
         )
-        
+
         args = {"message": "Test commit", "file": "prompt.yaml"}
         cmd = helper.build_command("commit", args, command_info)
-        
+
         assert cmd[0] == "promptvc"
         assert cmd[1] == "commit"
         assert "--message" in cmd
@@ -108,7 +107,7 @@ Commands:
     def test_build_command_with_boolean_flags(self):
         """Test building command with boolean flags."""
         helper = CommandHelper("promptvc")
-        
+
         command_info = CommandInfo(
             command="promptvc",
             description="Test",
@@ -124,12 +123,12 @@ Commands:
             ],
             subcommands=[],
         )
-        
+
         # Test with boolean true
         args = {"verbose": True}
         cmd = helper.build_command("log", args, command_info)
         assert "--verbose" in cmd
-        
+
         # Test with boolean false
         args = {"verbose": False}
         cmd = helper.build_command("log", args, command_info)
@@ -139,11 +138,11 @@ Commands:
         """Test building command without pre-parsed command info."""
         helper = CommandHelper("promptvc")
         args = {"message": "Test", "file": "test.yaml"}
-        
+
         # This should work but will make a real --help call
         # We can't fully test this without mocking subprocess
         cmd = helper.build_command("commit", args, command_info=None)
-        
+
         assert cmd[0] == "promptvc"
         assert cmd[1] == "commit"
 
@@ -155,7 +154,7 @@ class TestExecuteCommandHandler:
     async def test_handle_execute_command_missing_command(self):
         """Test handler with missing command parameter."""
         result = await handle_execute_command(None, {})
-        
+
         assert result["success"] is False
         assert "error" in result
         assert "No command specified" in result["error"]
@@ -173,7 +172,7 @@ class TestExecuteCommandHandler:
                 "check_help": True,
             }
         )
-        
+
         # Basic structure checks
         assert "success" in result
         assert "stdout" in result
@@ -192,7 +191,7 @@ class TestExecuteCommandHandler:
                 "check_help": False,
             }
         )
-        
+
         # Should not have command_info when check_help is False
         assert result.get("command_info") is None
 
@@ -207,13 +206,13 @@ class TestExecuteCommandHandler:
                 "check_help": True,
             }
         )
-        
+
         display = result.get("display", "")
-        
+
         # Check for expected formatting elements
         if result.get("command_info"):
             assert "Command Info" in display or "command info" in display.lower()
-        
+
         assert "Executing:" in display or "executing" in display.lower()
 
 
@@ -223,16 +222,16 @@ class TestCommandHelperIntegration:
     def test_real_help_command(self):
         """Test with real promptvc --help if available."""
         helper = CommandHelper("promptvc")
-        
+
         try:
             help_text = helper.get_help()
-            
+
             # Should get some output
             assert len(help_text) > 0
-            
+
             # Should contain expected keywords
             assert "promptvc" in help_text.lower() or "usage" in help_text.lower()
-            
+
         except Exception:
             # If promptvc not available, test should pass
             pytest.skip("promptvc command not available")
@@ -240,17 +239,17 @@ class TestCommandHelperIntegration:
     def test_real_subcommand_help(self):
         """Test with real promptvc subcommand --help if available."""
         helper = CommandHelper("promptvc")
-        
+
         try:
             help_text = helper.get_help("status")
-            
+
             # Should get help for status command
             assert len(help_text) > 0
-            
+
             # Parse it
             info = helper.parse_help_output(help_text)
             assert info is not None
-            
+
         except Exception:
             # If promptvc not available, test should pass
             pytest.skip("promptvc command not available")
