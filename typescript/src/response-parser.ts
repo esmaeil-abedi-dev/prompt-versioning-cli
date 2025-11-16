@@ -27,7 +27,7 @@ export function parseAgentResponse(output: string): AgentResponse {
   
   const lines = output.split('\n');
   let currentSection: 'message' | 'command' | 'args' | null = null;
-  let messageLines: string[] = [];
+  const messageLines: string[] = [];
   
   for (const line of lines) {
     const trimmed = line.trim();
