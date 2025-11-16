@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-11-16
+
+### Added
+
+- File path tracking in commits - commits now store the source file path
+- Automatic file restoration in `checkout` command
+- File path display in `log` command output (both normal and `--oneline` modes)
+- File path display in `status` command output
+- `--no-write` option to `checkout` command for viewing without writing
+
+### Changed
+
+- `checkout` command now automatically restores files to their original location
+- `checkout` command no longer prompts for filename when file path is known from commit
+- Documentation updates to remove incorrect `--name` and `--non-interactive` flags
+- Documentation updates to remove incorrect `--limit` flag (correct: `--max-count` or `-n`)
+- Documentation updates to add missing `--no-write` option for checkout
+
+### Fixed
+
+- Checkout behavior now matches Git semantics - only restores the committed file
+- Documentation inconsistencies across README, USER_GUIDE, QUICKSTART, and other docs
+
+## [0.1.0] - Initial Release
+
 ### Added
 
 - Initial project setup and structure

@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: prompt-versioning-cli
-Version: 1.0.0
+Version: 0.2.0
 Summary: Git-like version control for LLM prompts with lineage tracking and audit trails
 Author-email: Prompt Versioning Contributors <esmaeilabedi@outlook.com>
 Maintainer-email: Prompt Versioning Contributors <esmaeilabedi@outlook.com>

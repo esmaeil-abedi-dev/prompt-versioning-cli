@@ -39,7 +39,7 @@ def checkout(
 
         # Determine output file
         output_file = output or file_path
-        
+
         # If no output specified, use the file_path from the commit
         if not output_file and version.commit.file_path:
             output_file = version.commit.file_path

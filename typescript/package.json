@@ -1,6 +1,6 @@
 {
   "name": "prompt-versioning-cli",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "Git-like version control for LLM prompts with TypeScript bindings",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

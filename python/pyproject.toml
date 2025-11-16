@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "prompt-versioning-cli"
-version = "1.0.0"
+version = "0.2.0"
 description = "Git-like version control for LLM prompts with lineage tracking and audit trails"
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.9"
