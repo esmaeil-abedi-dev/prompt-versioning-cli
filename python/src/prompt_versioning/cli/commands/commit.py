@@ -19,17 +19,17 @@ from ..utils import error, parse_prompt_file
 @click.option("--path", default=".", help="Repository path")
 def commit(file_path: str, message: str, file_option: str, author: str, path: str):
     """Create a new commit with the given prompt.
-    
+
     FILE_PATH can be provided as a positional argument or via -f/--file option.
     """
     try:
         # Use file_option if provided, otherwise use file_path argument
         prompt_file = file_option or file_path
-        
+
         if not prompt_file:
             error("Missing prompt file. Provide as argument or use -f/--file option.")
             return
-        
+
         # Parse prompt file
         prompt_data, _ = parse_prompt_file(prompt_file)
 

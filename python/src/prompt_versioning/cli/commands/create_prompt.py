@@ -65,7 +65,7 @@ def create_prompt(
         existing_data = {}
         if file_path_obj.exists():
             if append:
-                with open(file_path_obj, "r") as f:
+                with open(file_path_obj) as f:
                     existing_data = yaml.safe_load(f) or {}
                 click.echo(f"📝 Appending to existing file: {file_path_obj}")
             else:
@@ -80,7 +80,7 @@ def create_prompt(
         prompt_data = existing_data.copy()
 
         # Check if any flags were provided (non-interactive mode)
-        has_flags = any([system, user_template, temperature is not None, 
+        has_flags = any([system, user_template, temperature is not None,
                         max_tokens is not None, top_p is not None, stop_sequences])
 
         if has_flags:
@@ -227,7 +227,7 @@ def create_prompt(
         # Show preview
         click.echo("\n📄 File contents:")
         click.echo("-" * 50)
-        with open(file_path_obj, "r") as f:
+        with open(file_path_obj) as f:
             click.echo(f.read())
         click.echo("-" * 50)
 

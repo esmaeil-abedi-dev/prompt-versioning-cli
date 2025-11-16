@@ -52,7 +52,7 @@ async def handle_create_prompt(repo, args: dict[str, Any], repo_path=None, serve
 
         if file_path.exists():
             if append:
-                with open(file_path, "r") as f:
+                with open(file_path) as f:
                     existing_data = yaml.safe_load(f) or {}
             elif not args.get("overwrite", False):
                 return {
@@ -99,7 +99,7 @@ async def handle_create_prompt(repo, args: dict[str, Any], repo_path=None, serve
             yaml.dump(prompt_data, f, default_flow_style=False, sort_keys=False)
 
         # Read back for confirmation
-        with open(file_path, "r") as f:
+        with open(file_path) as f:
             file_contents = f.read()
 
         return {

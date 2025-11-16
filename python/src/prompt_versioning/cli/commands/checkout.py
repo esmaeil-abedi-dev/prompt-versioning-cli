@@ -24,7 +24,7 @@ from ..utils import error
 @click.option("--no-write", is_flag=True, help="Don't write to file, just show info")
 def checkout(commit_ref: str, file_path: Optional[str], path: str, output: Optional[str], no_write: bool):
     """Checkout a specific commit.
-    
+
     FILE_PATH: Optional file to write the checked-out prompt to.
     If not specified and --no-write is not set, will prompt for filename.
     """
@@ -37,13 +37,13 @@ def checkout(commit_ref: str, file_path: Optional[str], path: str, output: Optio
 
         # Determine output file
         output_file = output or file_path
-        
+
         # Write prompt to file unless --no-write is specified
         if not no_write:
             if not output_file:
                 # Prompt for filename if not provided
                 output_file = click.prompt("Enter filename to write prompt", default="prompt.yaml")
-            
+
             output_path = Path(output_file)
             prompt_data = version.prompt.model_dump(exclude_none=True)
 

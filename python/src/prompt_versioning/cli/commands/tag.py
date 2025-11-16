@@ -22,14 +22,14 @@ from ..utils import error, parse_json_string
 @click.option("--path", default=".", help="Repository path")
 def tag(tag_name: str, commit_hash: Optional[str], commit_option: Optional[str], metadata: Optional[str], path: str):
     """Create a tag for an experiment.
-    
+
     COMMIT_HASH can be provided as a positional argument or via --commit option.
     If neither is provided, tags HEAD.
     """
     try:
         # Use commit_option if provided, otherwise use commit_hash argument
         commit = commit_option or commit_hash
-        
+
         # Parse metadata if provided
         metadata_dict = None
         if metadata:
