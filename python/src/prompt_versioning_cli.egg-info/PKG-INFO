@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: prompt-versioning-cli
+Version: 1.0.0
+Summary: Git-like version control for LLM prompts with lineage tracking and audit trails
+Author-email: Prompt Versioning Contributors <support@promptvc.dev>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/yourusername/prompt-versioning-cli
+Project-URL: Documentation, https://github.com/yourusername/prompt-versioning-cli/tree/main/docs
+Project-URL: Repository, https://github.com/yourusername/prompt-versioning-cli
+Project-URL: Issues, https://github.com/yourusername/prompt-versioning-cli/issues
+Keywords: llm,prompt,version-control,git,prompt-engineering,mlops,ai,machine-learning
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Version Control
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Typing :: Typed
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: click>=8.0.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: pydantic>=2.0.0
+Provides-Extra: agent
+Requires-Dist: openai>=1.0.0; extra == "agent"
+Requires-Dist: anthropic>=0.18.0; extra == "agent"
+Requires-Dist: requests>=2.31.0; extra == "agent"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: types-PyYAML; extra == "dev"
+Provides-Extra: all
+Requires-Dist: prompt-versioning-cli[agent,dev]; extra == "all"

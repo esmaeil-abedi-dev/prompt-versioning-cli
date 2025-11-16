@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "promptvc": {
+      "command": "python",
+      "args": [
+        "-m",
+        "prompt_versioning.mcp_server",
+        "--path",
+        "${workspaceFolder}/.promptvc",
+        "--transport",
+        "stdio"
+      ],
+      "env": {
+        "PROMPTVC_MCP_TOKEN": "${env:PROMPTVC_MCP_TOKEN}"
+      }
+    }
+  }
+}

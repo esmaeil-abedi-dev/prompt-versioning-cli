@@ -1,0 +1,103 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+python/build/
+python/develop-eggs/
+python/dist/
+python/downloads/
+python/eggs/
+python/.eggs/
+python/lib/
+python/lib64/
+python/parts/
+python/sdist/
+python/var/
+python/wheels/
+python/*.egg-info/
+python/.installed.cfg
+python/*.egg
+src/prompt_versioning_cli.egg-info/
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# Testing
+.pytest_cache/
+python/.pytest_cache/
+.coverage
+python/.coverage
+htmlcov/
+python/htmlcov/
+.tox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Type checking & Linting
+.mypy_cache/
+python/.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.ruff_cache/
+python/.ruff_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node & TypeScript
+node_modules/
+typescript/node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+*.tsbuildinfo
+typescript/dist/
+
+# Prompt versioning repository
+.prompt-vc/
+python/.prompt-vc/
+
+# Build artifacts
+dist/
+build/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+.temp/
+tmp/
+test-locally.sh
+
+# Manual testing
+MANUAL_TESTING.md
+
+# OS
+.DS_Store
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# GitHub
+.github/workflows/*.log

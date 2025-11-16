@@ -1,0 +1,68 @@
+{
+  "name": "prompt-versioning-cli",
+  "version": "1.0.0",
+  "description": "Git-like version control for LLM prompts with TypeScript bindings",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "promptvc": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write 'src/**/*.ts'",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "llm",
+    "prompt",
+    "version-control",
+    "git",
+    "prompt-engineering",
+    "mlops",
+    "ai",
+    "machine-learning",
+    "typescript",
+    "cli"
+  ],
+  "author": "Prompt Versioning Contributors <support@promptvc.dev>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/prompt-versioning-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/prompt-versioning-cli/issues"
+  },
+  "homepage": "https://github.com/yourusername/prompt-versioning-cli#readme",
+  "peerDependencies": {
+    "prompt-versioning-cli-python": "^1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "prompt-versioning-cli-python": {
+      "optional": false
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.5.0",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ]
+}
