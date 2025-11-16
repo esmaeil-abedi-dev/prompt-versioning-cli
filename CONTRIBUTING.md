@@ -11,7 +11,7 @@ This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDU
 ### Prerequisites
 
 - **Python**: 3.9 or higher
-- **Node.js**: 18 or higher
+- **Node.js**: 18 or higher (for TypeScript bindings)
 - **Git**: For version control
 
 ### Development Setup
@@ -19,7 +19,7 @@ This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDU
 1. **Fork and Clone**
 
 ```bash
-git clone https://github.com/yourusername/prompt-versioning-cli.git
+git clone https://github.com/esmaeil-abedi-dev/prompt-versioning-cli.git
 cd prompt-versioning-cli
 ```
 
@@ -50,6 +50,8 @@ pytest tests/ -v
 cd typescript
 npm test
 ```
+
+For more detailed development information, see the [Developer Guide](docs/DEVELOPER_GUIDE.md).
 
 ## Development Workflow
 
@@ -225,19 +227,37 @@ describe('PromptRepository', () => {
 
 ## Documentation
 
+### User Documentation
+
+For end-users of the CLI, see:
+
+- **[User Guide](docs/USER_GUIDE.md)**: Complete user documentation with examples
+  - Installation
+  - Quick Start
+  - Creating Prompts
+  - Core Commands
+  - LLM Agent Mode
+  - MCP Server Integration
+  - YAML Schema
+  - Production Usage
+
+### Developer Documentation
+
+For technical details and architecture:
+
+- **[Developer Guide](docs/DEVELOPER_GUIDE.md)**: Architecture and development docs
+  - Project Structure
+  - Development Setup
+  - Architecture Overview
+  - Testing Guide
+  - Publishing Process
+
 ### Adding Documentation
 
 - Update relevant `.md` files in `docs/`
 - Include code examples
 - Keep language clear and concise
-
-### Documentation Structure
-
-- **README.md**: Overview and quick start
-- **docs/CLI_REFERENCE.md**: Complete CLI documentation
-- **docs/YAML_SCHEMA.md**: Prompt file format
-- **docs/GITHUB_ACTIONS.md**: CI/CD integration
-- **docs/COMPLIANCE_AUDIT.md**: Audit trail usage
+- Test all examples before submitting
 
 ## Pull Request Process
 
@@ -273,17 +293,18 @@ How to test these changes
 ### Review Process
 
 1. Automated checks run (CI/CD)
-2. Maintainer reviews code
-3. Address feedback
-4. Approval and merge
+1. Maintainer reviews code
+1. Address feedback
+1. Approval and merge
 
 ## Release Process
 
-Releases are automated via GitHub Actions when tags are pushed.
+Releases will be automated via GitHub Actions when tags are pushed (not yet published).
 
 ### Version Numbering
 
 Follow [Semantic Versioning](https://semver.org/):
+
 - `MAJOR.MINOR.PATCH`
 - Major: Breaking changes
 - Minor: New features (backward compatible)
@@ -292,21 +313,22 @@ Follow [Semantic Versioning](https://semver.org/):
 ### Creating a Release
 
 1. Update version in `pyproject.toml` and `package.json`
-2. Update `CHANGELOG.md`
-3. Create and push tag:
+1. Update `CHANGELOG.md`
+1. Create and push tag:
 
 ```bash
-git tag -a v1.1.0 -m "Release v1.1.0"
-git push origin v1.1.0
+git tag -a v1.0.0 -m "Release v1.0.0"
+git push origin v1.0.0
 ```
 
-4. GitHub Actions will publish to PyPI and npm
+1. GitHub Actions will publish to PyPI and npm
 
 ## Issue Reporting
 
 ### Bug Reports
 
 Use the bug report template and include:
+
 - Steps to reproduce
 - Expected behavior
 - Actual behavior
@@ -316,6 +338,7 @@ Use the bug report template and include:
 ### Feature Requests
 
 Use the feature request template and include:
+
 - Problem description
 - Proposed solution
 - Alternative solutions
@@ -333,9 +356,9 @@ By contributing, you agree that your contributions will be licensed under the MI
 
 ## Questions?
 
-- Check existing [issues](https://github.com/yourusername/prompt-versioning-cli/issues)
-- Ask in [discussions](https://github.com/yourusername/prompt-versioning-cli/discussions)
-- Email: support@promptvc.dev
+- Check existing [issues](https://github.com/esmaeil-abedi-dev/prompt-versioning-cli/issues)
+- Ask in [discussions](https://github.com/esmaeil-abedi-dev/prompt-versioning-cli/discussions)
+- Email: <support@promptvc.dev>
 
 ---
 
