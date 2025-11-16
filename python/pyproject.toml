@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "prompt-versioning-cli"
 version = "1.0.0"
 description = "Git-like version control for LLM prompts with lineage tracking and audit trails"
-readme = {file = "../README.md", content-type = "text/markdown"}
+readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.9"
 license = {text = "AGPL-3.0-or-later"}
 authors = [
