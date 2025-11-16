@@ -18,6 +18,7 @@ from ...core import PromptRepository
 from ..handlers import (
     handle_checkout_version,
     handle_commit_prompt,
+    handle_create_prompt,
     handle_diff_versions,
     handle_generate_audit,
     handle_get_history,
@@ -88,6 +89,7 @@ class PromptVCMCPServer:
         self.tool_handlers: dict[str, Callable] = {
             "promptvc_init_repository": lambda args: handle_init_repository(self.repo, args, self.repo_path, self),
             "promptvc_commit": lambda args: handle_commit_prompt(self.repo, args),
+            "promptvc_create_prompt": lambda args: handle_create_prompt(self.repo, args, self.repo_path, self),
             "promptvc_get_history": lambda args: handle_get_history(self.repo, args),
             "promptvc_diff": lambda args: handle_diff_versions(self.repo, args),
             "promptvc_checkout": lambda args: handle_checkout_version(self.repo, args),

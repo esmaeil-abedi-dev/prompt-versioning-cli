@@ -37,14 +37,6 @@
     "url": "https://github.com/yourusername/prompt-versioning-cli/issues"
   },
   "homepage": "https://github.com/yourusername/prompt-versioning-cli#readme",
-  "peerDependencies": {
-    "prompt-versioning-cli-python": "^1.0.0"
-  },
-  "peerDependenciesMeta": {
-    "prompt-versioning-cli-python": {
-      "optional": false
-    }
-  },
   "devDependencies": {
     "@types/jest": "^29.5.0",
     "@types/node": "^20.0.0",

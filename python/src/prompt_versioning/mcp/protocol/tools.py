@@ -43,6 +43,80 @@ def get_tool_definitions() -> list[dict]:
             },
         ),
         MCPTool(
+            name="promptvc_create_prompt",
+            description="Create or update a prompt YAML file with interactive guidance",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "file": {
+                        "type": "string",
+                        "description": "Path to prompt file (default: prompts/<name>.yaml)",
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Prompt name (for automatic file naming)",
+                    },
+                    "system": {"type": "string", "description": "System message for the LLM"},
+                    "user_template": {
+                        "type": "string",
+                        "description": "User message template with {variable} placeholders",
+                    },
+                    "assistant_prefix": {
+                        "type": "string",
+                        "description": "Assistant message prefix",
+                    },
+                    "temperature": {
+                        "type": "number",
+                        "description": "Sampling temperature (0.0-2.0)",
+                        "minimum": 0.0,
+                        "maximum": 2.0,
+                    },
+                    "max_tokens": {
+                        "type": "integer",
+                        "description": "Maximum tokens to generate",
+                        "minimum": 1,
+                    },
+                    "top_p": {
+                        "type": "number",
+                        "description": "Nucleus sampling parameter (0.0-1.0)",
+                        "minimum": 0.0,
+                        "maximum": 1.0,
+                    },
+                    "frequency_penalty": {
+                        "type": "number",
+                        "description": "Frequency penalty (-2.0-2.0)",
+                        "minimum": -2.0,
+                        "maximum": 2.0,
+                    },
+                    "presence_penalty": {
+                        "type": "number",
+                        "description": "Presence penalty (-2.0-2.0)",
+                        "minimum": -2.0,
+                        "maximum": 2.0,
+                    },
+                    "stop_sequences": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Stop sequences for generation",
+                    },
+                    "append": {
+                        "type": "boolean",
+                        "description": "Append to existing file instead of creating new",
+                        "default": False,
+                    },
+                    "overwrite": {
+                        "type": "boolean",
+                        "description": "Overwrite existing file without prompting",
+                        "default": False,
+                    },
+                    "additional_fields": {
+                        "type": "object",
+                        "description": "Any additional custom fields",
+                    },
+                },
+            },
+        ),
+        MCPTool(
             name="promptvc_get_history",
             description="Get commit history",
             inputSchema={

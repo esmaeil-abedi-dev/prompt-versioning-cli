@@ -106,13 +106,20 @@ npm install -g prompt-versioning-cli
 promptvc init
 # ✓ Initialized prompt repository in .prompt-vc/
 
-# 2. Create your first prompt (support-prompt.yaml)
-cat > support-prompt.yaml << EOF
-system: "You are a friendly customer support agent."
-user_template: "Help me with: {issue}"
-temperature: 0.7
-max_tokens: 500
-EOF
+# 2. Create your first prompt interactively
+promptvc create-prompt --name support-bot
+# 🎨 Creating prompt file interactively...
+# System message: You are a friendly customer support agent.
+# User template: Help me with: {issue}
+# Temperature (0.0-2.0, press Enter to skip): 0.7
+# Max tokens (press Enter to skip): 500
+# ✓ Prompt file created: prompts/support-bot.yaml
+
+# Or create non-interactively
+promptvc create-prompt --name quick-prompt \
+  --system "You are helpful" \
+  --temperature 0.7 \
+  --non-interactive
 
 # 3. Commit the prompt
 promptvc commit -m "Initial support prompt" -f support-prompt.yaml
@@ -152,6 +159,46 @@ promptvc checkout a1b2c3d
 # 9. Generate compliance audit
 promptvc audit --format csv --output audit.csv
 # Exported audit log to audit.csv
+```
+
+### 🎨 Creating Prompts Made Easy
+
+No need to manually create YAML files! Use the interactive `create-prompt` command:
+
+```bash
+# Interactive mode - step-by-step prompts
+promptvc create-prompt
+# 🎨 Creating prompt file interactively...
+# Prompt file path [prompts/prompt.yaml]: prompts/support-bot.yaml
+# System message: You are a warm, empathetic customer support agent.
+# User template: Customer: {customer_name}, Issue: {issue}
+# Temperature (0.0-2.0, press Enter to skip): 0.7
+# Max tokens (press Enter to skip): 800
+# ...
+# ✓ Prompt file created: prompts/support-bot.yaml
+
+# Quick creation with flags
+promptvc create-prompt --name quick-bot \
+  --system "You are helpful" \
+  --user-template "Question: {question}" \
+  --temperature 0.7 \
+  --max-tokens 500 \
+  --non-interactive
+
+# Append/update existing file
+promptvc create-prompt --file prompts/support-bot.yaml --append
+
+# Let the agent help you create prompts!
+promptvc agent --create-prompt
+# 🤖 Agent will ask questions and generate the create-prompt command for you
+
+# Agent can also do it in interactive mode
+promptvc agent --interactive
+You → I need to create a prompt for a code reviewer
+🤖 Assistant: I'll help you create a code review prompt. What programming 
+   languages should it focus on?
+You → Python and JavaScript
+🤖 Assistant: Great! Should it focus on any specific aspects like...
 ```
 
 ## 🛠️ Usage Examples

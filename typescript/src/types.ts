@@ -78,6 +78,7 @@ export interface AgentConfig {
   model?: string;
   repoPath?: string;
   conversationFile?: string;
+  createPrompt?: boolean; // Flag to enter prompt creation mode
 }
 
 /**
@@ -92,4 +93,34 @@ export interface DiffResult {
     oldValue: any;
     newValue: any;
   }>;
+}
+
+/**
+ * Create prompt options.
+ */
+export interface CreatePromptOptions {
+  file?: string;
+  name?: string;
+  nonInteractive?: boolean;
+  system?: string;
+  userTemplate?: string;
+  temperature?: number;
+  maxTokens?: number;
+  topP?: number;
+  stopSequences?: string | string[];
+  append?: boolean;
+  overwrite?: boolean;
+  additionalFields?: Record<string, any>;
+}
+
+/**
+ * Create prompt result.
+ */
+export interface CreatePromptResult {
+  success: boolean;
+  message?: string;
+  path?: string;
+  contents?: string;
+  data?: PromptData;
+  error?: string;
 }

@@ -9,6 +9,7 @@ from .agent import agent
 from .audit import audit
 from .checkout import checkout
 from .commit import commit
+from .create_prompt import create_prompt
 from .diff import diff
 from .init import init
 from .log import log
@@ -29,6 +30,7 @@ __all__ = [
     "status",
     "audit",
     "agent",
+    "create_prompt",
     "mcp_server",
     "mcp_setup",
 ]

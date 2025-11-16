@@ -8,6 +8,7 @@ Complete guide for using the Prompt Versioning CLI.
 
 - [Installation](#installation)
 - [Quick Start](#quick-start)
+- [Creating Prompts](#creating-prompts)
 - [Core Commands](#core-commands)
 - [LLM Agent Mode](#llm-agent-mode)
 - [MCP Server Integration](#mcp-server-integration)
@@ -70,6 +71,99 @@ promptvc tag experiment-v1 --metadata '{"accuracy": 0.85}'
 
 # 9. Check repository status
 promptvc status
+```
+
+---
+
+## Creating Prompts
+
+### `create-prompt` - Interactive Prompt Creation
+
+No need to manually write YAML files! The `create-prompt` command guides you through creating properly formatted prompt files.
+
+```bash
+promptvc create-prompt [OPTIONS]
+```
+
+**Interactive Mode (Recommended):**
+
+```bash
+promptvc create-prompt
+
+# You'll be prompted for:
+# - File path (default: prompts/prompt.yaml)
+# - System message
+# - User template with {variable} placeholders
+# - Temperature, max tokens, top-p (all optional)
+# - Stop sequences (optional)
+```
+
+**Quick Creation with Flags:**
+
+```bash
+# Create with basic settings
+promptvc create-prompt --name my-bot \
+  --system "You are a helpful assistant" \
+  --user-template "Question: {question}" \
+  --temperature 0.7
+
+# Full configuration
+promptvc create-prompt --file prompts/support.yaml \
+  --system "You are a customer support agent" \
+  --user-template "Customer: {name}, Issue: {issue}" \
+  --temperature 0.8 \
+  --max-tokens 1000 \
+  --top-p 0.95 \
+  --stop-sequences "[END],[DONE]" \
+  --non-interactive
+```
+
+**Options:**
+
+- `--file FILE` / `-f FILE`: Path to prompt file (default: prompts/<name>.yaml)
+- `--name NAME`: Prompt name (for automatic file naming)
+- `--non-interactive`: Skip interactive prompts, use only provided options
+- `--system TEXT`: System message for the LLM
+- `--user-template TEXT`: User template with {variable} placeholders
+- `--temperature FLOAT`: Temperature (0.0-2.0)
+- `--max-tokens INT`: Maximum tokens to generate
+- `--top-p FLOAT`: Top-p sampling (0.0-1.0)
+- `--stop-sequences TEXT`: Comma-separated stop sequences
+- `--append`: Append to existing file instead of creating new
+
+**Examples:**
+
+```bash
+# Interactive - best for first-time users
+promptvc create-prompt
+🎨 Creating prompt file interactively...
+Prompt file path [prompts/prompt.yaml]: prompts/reviewer.yaml
+System message: You are a code reviewer
+User template: Review this code: {code}
+Temperature (0.0-2.0, press Enter to skip): 0.3
+...
+✓ Prompt file created: prompts/reviewer.yaml
+
+# Quick creation for experienced users
+promptvc create-prompt --name translator \
+  --system "Translate to {target_language}" \
+  --non-interactive
+
+# Update existing file
+promptvc create-prompt --file prompts/support.yaml \
+  --temperature 0.9 \
+  --append
+
+# With agent assistance
+promptvc agent --create-prompt
+🤖 I'll help you create a prompt. What kind of bot are you building?
+You → A summarization bot for long articles
+🤖 Great! What should the tone be? Professional, casual, or technical?
+You → Professional and concise
+🤖 I'll create a prompt for you...
+Generated command:
+promptvc create-prompt --name summarizer --system "You are a professional summarization assistant..." --temperature 0.5
+Execute this command to create the prompt? [Y/n]:
 ```
 
 ---

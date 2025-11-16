@@ -12,6 +12,7 @@ from .commands import (
     audit,
     checkout,
     commit,
+    create_prompt,
     diff,
     init,
     log,
@@ -45,6 +46,7 @@ cli.add_command(tags)
 cli.add_command(status)
 cli.add_command(audit)
 cli.add_command(agent)
+cli.add_command(create_prompt)
 cli.add_command(mcp_server)
 cli.add_command(mcp_setup)
 

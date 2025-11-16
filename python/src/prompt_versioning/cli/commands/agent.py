@@ -26,6 +26,11 @@ from ..utils import error, execute_shell_command
 @click.option("--save-conversation", help="Save conversation to file on exit")
 @click.option("--load-conversation", help="Resume conversation from file")
 @click.option("--path", default=".", help="Repository path")
+@click.option(
+    "--create-prompt",
+    is_flag=True,
+    help="Ask agent to help create a prompt file interactively",
+)
 def agent(
     query: tuple,
     backend: str,
@@ -34,6 +39,7 @@ def agent(
     save_conversation: Optional[str],
     load_conversation: Optional[str],
     path: str,
+    create_prompt: bool,
 ):
     """
     🤖 LLM-powered conversational interface for prompt versioning.
@@ -42,6 +48,7 @@ def agent(
         promptvc agent "initialize the project"
         promptvc agent "commit this prompt with message 'improved clarity'"
         promptvc agent --interactive  # Start REPL mode
+        promptvc agent --create-prompt  # Ask agent to help create a prompt
     """
     try:
         from ...agent import AnthropicBackend, OllamaBackend, OpenAIBackend, PromptVCAgent
@@ -52,6 +59,35 @@ def agent(
         )
 
     try:
+        # Handle --create-prompt flag
+        if create_prompt:
+            # Initialize backend
+            llm_backend = None
+            if backend != "auto":
+                if backend == "openai":
+                    llm_backend = OpenAIBackend(model=model or "gpt-4")
+                elif backend == "anthropic":
+                    llm_backend = AnthropicBackend(model=model or "claude-3-5-sonnet-20241022")
+                elif backend == "ollama":
+                    llm_backend = OllamaBackend(model=model or "llama3.2")
+
+            agent_obj = PromptVCAgent(backend=llm_backend, repo_path=path)
+            backend_name = type(agent_obj.backend).__name__.replace("Backend", "")
+            click.echo(f"🤖 Agent active (using {backend_name})\n")
+
+            # Start prompt creation conversation
+            initial_query = " ".join(query) if query else "I need help creating a prompt file"
+            response = agent_obj.process_message(
+                f"{initial_query}. Please ask me questions to gather the necessary information "
+                "and then generate a promptvc create-prompt command with all the details."
+            )
+
+            click.echo(f"🤖 Assistant:\n{response.message}\n")
+
+            # Enter interactive mode for gathering details
+            _run_create_prompt_mode(agent_obj, path)
+            return
+
         # Initialize backend
         llm_backend = None
         if backend != "auto":
@@ -146,6 +182,64 @@ def _run_interactive_agent(agent_obj, repo_path: str):
 
         except (KeyboardInterrupt, EOFError):
             click.echo("\nGoodbye! 👋")
+            break
+        except Exception as e:
+            click.echo(f"\n✗ Error: {e}\n", err=True)
+
+
+def _run_create_prompt_mode(agent_obj, repo_path: str):
+    """Run interactive mode specifically for prompt creation."""
+    click.echo("💡 Prompt Creation Mode - Answer the agent's questions to create your prompt\n")
+    click.echo("   (type 'exit', 'quit', or press Ctrl+C to cancel)\n")
+
+    while True:
+        try:
+            user_input = click.prompt("You", type=str, prompt_suffix=" → ").strip()
+
+            if user_input.lower() in ["exit", "quit", "bye", "cancel"]:
+                click.echo("Prompt creation cancelled. 👋")
+                break
+
+            if not user_input:
+                continue
+
+            # Process message
+            response = agent_obj.process_message(user_input)
+
+            # Display response
+            click.echo(f"\n🤖 Assistant:\n{response.message}\n")
+
+            # Handle command execution (should be the create-prompt command)
+            if response.command:
+                if "create-prompt" in response.command or "create_prompt" in response.command:
+                    click.echo(f"Generated command:\n{response.command}\n")
+
+                    if click.confirm("Execute this command to create the prompt?", default=True):
+                        click.echo()
+                        execute_shell_command(response.command)
+                        click.echo("\n✨ Prompt file created successfully!")
+                        break
+                    else:
+                        click.echo(
+                            "Let's refine it. Tell me what you'd like to change.\n"
+                        )
+                        continue
+                else:
+                    # Other commands
+                    if response.needs_confirmation:
+                        if not click.confirm(f"Execute: {response.command}?", default=True):
+                            click.echo("Skipped.\n")
+                            continue
+
+                    click.echo(f"▶ Executing: {response.command}\n")
+                    execute_shell_command(response.command)
+                    click.echo()
+
+            if response.error:
+                click.echo(f"⚠️  Warning: {response.error}\n", err=True)
+
+        except (KeyboardInterrupt, EOFError):
+            click.echo("\nPrompt creation cancelled. 👋")
             break
         except Exception as e:
             click.echo(f"\n✗ Error: {e}\n", err=True)
