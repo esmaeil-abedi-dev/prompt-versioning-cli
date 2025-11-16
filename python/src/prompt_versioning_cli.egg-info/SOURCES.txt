@@ -15,6 +15,7 @@ src/prompt_versioning/cli/commands/agent.py
 src/prompt_versioning/cli/commands/audit.py
 src/prompt_versioning/cli/commands/checkout.py
 src/prompt_versioning/cli/commands/commit.py
+src/prompt_versioning/cli/commands/create_prompt.py
 src/prompt_versioning/cli/commands/diff.py
 src/prompt_versioning/cli/commands/init.py
 src/prompt_versioning/cli/commands/log.py
@@ -26,6 +27,7 @@ src/prompt_versioning/cli/commands/tags.py
 src/prompt_versioning/cli/core/__init__.py
 src/prompt_versioning/cli/core/repository.py
 src/prompt_versioning/cli/utils/__init__.py
+src/prompt_versioning/cli/utils/constants.py
 src/prompt_versioning/cli/utils/execution.py
 src/prompt_versioning/cli/utils/output.py
 src/prompt_versioning/cli/utils/validation.py
@@ -46,13 +48,16 @@ src/prompt_versioning/core/storage/filesystem.py
 src/prompt_versioning/core/storage/prompt_storage.py
 src/prompt_versioning/core/storage/tag_storage.py
 src/prompt_versioning/mcp/__init__.py
+src/prompt_versioning/mcp/__main__.py
 src/prompt_versioning/mcp/handlers/__init__.py
 src/prompt_versioning/mcp/handlers/checkout_version.py
 src/prompt_versioning/mcp/handlers/commit_prompt.py
+src/prompt_versioning/mcp/handlers/create_prompt.py
 src/prompt_versioning/mcp/handlers/diff_versions.py
 src/prompt_versioning/mcp/handlers/generate_audit.py
 src/prompt_versioning/mcp/handlers/get_history.py
 src/prompt_versioning/mcp/handlers/get_status.py
+src/prompt_versioning/mcp/handlers/help_checker.py
 src/prompt_versioning/mcp/handlers/init_repository.py
 src/prompt_versioning/mcp/handlers/list_tags.py
 src/prompt_versioning/mcp/handlers/rollback.py

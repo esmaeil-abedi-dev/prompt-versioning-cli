@@ -12,6 +12,7 @@ import click
 import yaml
 
 from ..utils import error, success
+from ..utils.constants import DEFAULT_PROMPTS_DIR
 
 
 @click.command(name="create-prompt")
@@ -55,11 +56,16 @@ def create_prompt(
         if not file:
             file = click.prompt(
                 "Prompt file path",
-                default="prompts/prompt.yaml",
+                default=f"{DEFAULT_PROMPTS_DIR}/prompt.yaml",
                 type=str,
             )
 
         file_path_obj = Path(file)
+        
+        # If the path doesn't include a directory and doesn't start with ./
+        # automatically place it in the prompts directory
+        if not file_path_obj.parent.name and file_path_obj.parent == Path('.'):
+            file_path_obj = Path(DEFAULT_PROMPTS_DIR) / file_path_obj
 
         # Check if file exists and handle append mode
         existing_data = {}

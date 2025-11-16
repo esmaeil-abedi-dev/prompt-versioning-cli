@@ -5,10 +5,41 @@ Copyright (c) 2025 Prompt Versioning Contributors
 Licensed under MIT License
 """
 
+import re
 from pathlib import Path
 from typing import Any
 
 import yaml
+
+# Default prompts directory
+DEFAULT_PROMPTS_DIR = "prompts"
+
+
+def _generate_meaningful_name(system_prompt: str = None, user_template: str = None) -> str:
+    """
+    Generate a meaningful filename from prompt content.
+    
+    Args:
+        system_prompt: The system prompt content
+        user_template: The user template content
+        
+    Returns:
+        A meaningful filename slug (e.g., "customer-support-bot")
+    """
+    # Try to extract meaningful words from system prompt first
+    text = system_prompt or user_template or "prompt"
+    
+    # Extract key words (lowercase, alphanumeric, convert spaces/underscores to hyphens)
+    words = re.findall(r'\b[a-z]+\b', text.lower())
+    
+    # Filter out common words and take first few meaningful ones
+    stop_words = {'you', 'are', 'a', 'an', 'the', 'is', 'to', 'for', 'and', 'or', 'your', 'with', 'in', 'on', 'at'}
+    meaningful_words = [w for w in words if w not in stop_words and len(w) > 2][:3]
+    
+    if meaningful_words:
+        return '-'.join(meaningful_words)
+    
+    return "prompt"
 
 
 async def handle_create_prompt(repo, args: dict[str, Any], repo_path=None, server=None) -> dict[str, Any]:
@@ -35,16 +66,31 @@ async def handle_create_prompt(repo, args: dict[str, Any], repo_path=None, serve
         name = args.get("name")
 
         if not file_path and not name:
-            return {"success": False, "error": "Either 'file' or 'name' must be provided"}
+            # Try to generate a meaningful name from prompt content
+            system_prompt = args.get("system")
+            user_template = args.get("user_template")
+            
+            if system_prompt or user_template:
+                name = _generate_meaningful_name(system_prompt, user_template)
+            else:
+                return {
+                    "success": False, 
+                    "error": "Either 'file' or 'name' must be provided, or include 'system' or 'user_template' to auto-generate a name"
+                }
 
         if not file_path:
-            file_path = f"prompts/{name}.yaml"
+            file_path = f"{DEFAULT_PROMPTS_DIR}/{name}.yaml"
 
         # Resolve relative to repo_path if provided
         if repo_path:
             file_path = Path(repo_path) / file_path
         else:
             file_path = Path(file_path)
+        
+        # If the path doesn't include a directory and doesn't start with ./
+        # automatically place it in the prompts directory
+        if not file_path.parent.name and file_path.parent == Path('.'):
+            file_path = Path(DEFAULT_PROMPTS_DIR) / file_path
 
         # Check if file exists and handle append mode
         existing_data = {}
@@ -102,12 +148,17 @@ async def handle_create_prompt(repo, args: dict[str, Any], repo_path=None, serve
         with open(file_path) as f:
             file_contents = f.read()
 
+        # Read back for confirmation
+        with open(file_path) as f:
+            file_contents = f.read()
+
         return {
             "success": True,
             "message": f"Prompt file {'updated' if append else 'created'}: {file_path}",
             "path": str(file_path.resolve()),
             "contents": file_contents,
             "data": prompt_data,
+            "display": f"✅ Created prompt file: {file_path}\n\nContents:\n{file_contents}",
         }
 
     except Exception as e:

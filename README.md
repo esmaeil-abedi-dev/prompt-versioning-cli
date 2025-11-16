@@ -185,6 +185,11 @@ promptvc create-prompt --name quick-bot \
   --max-tokens 500 \
   --non-interactive
 
+# Simple filename (automatically placed in prompts/ directory)
+promptvc create-prompt customer-support.yaml \
+  --system "You are a customer support agent"
+# ✓ Creates: prompts/customer-support.yaml
+
 # Append/update existing file
 promptvc create-prompt --file prompts/support-bot.yaml --append
 

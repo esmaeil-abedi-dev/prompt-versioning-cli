@@ -1,2 +1,3 @@
 [console_scripts]
 promptvc = prompt_versioning.cli:main
+promptvc-mcp = prompt_versioning.mcp.protocol.server:main

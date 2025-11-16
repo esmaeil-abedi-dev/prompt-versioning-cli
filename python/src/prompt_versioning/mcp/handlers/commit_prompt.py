@@ -37,12 +37,13 @@ async def handle_commit_prompt(repo, args: dict[str, Any]) -> dict[str, Any]:
 
         return {
             "success": True,
-            "hash": commit.hash,  # Primary field name expected by tests
-            "commit_hash": commit.hash,  # Backward compatibility
+            "hash": commit.hash,
+            "commit_hash": commit.hash,
             "short_hash": commit.short_hash(),
             "message": message,
             "author": author,
             "timestamp": commit.timestamp.isoformat(),
+            "display": f"✅ Committed: {commit.short_hash()}\nMessage: {message}\nAuthor: {author}",
         }
     except Exception as e:
         return {"success": False, "error": str(e)}

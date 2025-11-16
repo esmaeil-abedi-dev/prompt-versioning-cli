@@ -81,6 +81,8 @@ promptvc status
 
 No need to manually write YAML files! The `create-prompt` command guides you through creating properly formatted prompt files.
 
+**📁 File Organization:** Prompt files are automatically organized in a `prompts/` directory. When you provide a simple filename (e.g., `my-bot.yaml`), it will be created as `prompts/my-bot.yaml`. You can also specify a full path if you prefer a different structure.
+
 ```bash
 promptvc create-prompt [OPTIONS]
 ```
@@ -148,6 +150,11 @@ Temperature (0.0-2.0, press Enter to skip): 0.3
 promptvc create-prompt --name translator \
   --system "Translate to {target_language}" \
   --non-interactive
+
+# Simple filename (automatically placed in prompts/ directory)
+promptvc create-prompt my-bot.yaml \
+  --system "You are a helpful bot"
+# ✓ Creates: prompts/my-bot.yaml
 
 # Update existing file
 promptvc create-prompt --file prompts/support.yaml \

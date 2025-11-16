@@ -28,6 +28,7 @@ from ..handlers import (
     handle_rollback,
     handle_tag_experiment,
 )
+from ..handlers.help_checker import check_command_help, format_help_display
 from .models import MCPError, MCPRequest, MCPResponse
 from .resources import get_resource_definitions
 from .tools import get_tool_definitions
@@ -130,8 +131,51 @@ class PromptVCMCPServer:
         if tool_name not in self.tool_handlers:
             raise MCPError(self.INVALID_PARAMS, f"Tool not found: {tool_name}")
 
+        # Map tool names to CLI commands for help checking
+        tool_to_command = {
+            "promptvc_init_repository": "init",
+            "promptvc_commit": "commit",
+            "promptvc_create_prompt": "create-prompt",
+            "promptvc_get_history": "log",
+            "promptvc_diff": "diff",
+            "promptvc_checkout": "checkout",
+            "promptvc_tag": "tag",
+            "promptvc_list_tags": "tags",
+            "promptvc_get_status": "status",
+            "promptvc_generate_audit": "audit",
+            "promptvc_rollback": "rollback",
+        }
+
+        # Check --help before executing
+        help_info = None
+        if tool_name in tool_to_command:
+            command = tool_to_command[tool_name]
+            help_info = check_command_help(command)
+
+        # Execute the handler
         handler = self.tool_handlers[tool_name]
         result = await handler(arguments)
+
+        # Add help info to result if not already present and if we checked help
+        if help_info and isinstance(result, dict):
+            if "help_info" not in result:
+                result["help_info"] = help_info
+            
+            # Add or enhance display field with help info
+            if "display" not in result:
+                # Generate display from result data
+                if result.get("success"):
+                    message = result.get("message", "Operation completed successfully")
+                    result["display"] = format_help_display(help_info, f"✅ {message}")
+                else:
+                    error = result.get("error", "Operation failed")
+                    result["display"] = format_help_display(help_info, f"❌ {error}")
+            elif help_info.get("checked"):
+                # Prepend help info to existing display
+                existing_display = result["display"]
+                help_prefix = format_help_display(help_info, "")
+                if help_prefix and not existing_display.startswith("📚"):
+                    result["display"] = help_prefix + "\n" + existing_display
 
         # Format response according to MCP protocol
         # The result should be wrapped in a content array with proper formatting

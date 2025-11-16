@@ -31,6 +31,7 @@ async def handle_init_repository(repo, args: dict[str, Any], repo_path=None, ser
             "success": True,
             "message": f"Repository initialized at {Path(path).resolve()}",
             "path": str(Path(path).resolve()),
+            "display": f"✅ Repository initialized at {Path(path).resolve()}",
         }
     except FileExistsError:
         return {"success": False, "error": "Repository already exists"}

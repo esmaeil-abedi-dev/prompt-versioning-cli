@@ -67,6 +67,7 @@ Issues = "https://github.com/yourusername/prompt-versioning-cli/issues"
 
 [project.scripts]
 promptvc = "prompt_versioning.cli:main"
+promptvc-mcp = "prompt_versioning.mcp.protocol.server:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

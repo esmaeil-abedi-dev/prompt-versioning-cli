@@ -44,17 +44,17 @@ def get_tool_definitions() -> list[dict]:
         ),
         MCPTool(
             name="promptvc_create_prompt",
-            description="Create or update a prompt YAML file with interactive guidance",
+            description="Create or update a prompt YAML file. Always provide a meaningful 'name' (e.g., 'customer-support-bot') or 'file' path to ensure readable filenames.",
             inputSchema={
                 "type": "object",
                 "properties": {
                     "file": {
                         "type": "string",
-                        "description": "Path to prompt file (default: prompts/<name>.yaml)",
+                        "description": "Path to prompt file (e.g., 'prompts/customer-bot.yaml'). If not provided, will use 'name' parameter.",
                     },
                     "name": {
                         "type": "string",
-                        "description": "Prompt name (for automatic file naming)",
+                        "description": "Meaningful prompt name for automatic file naming (e.g., 'support-bot', 'email-writer'). Will create file as 'prompts/<name>.yaml'.",
                     },
                     "system": {"type": "string", "description": "System message for the LLM"},
                     "user_template": {
