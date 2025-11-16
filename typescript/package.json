@@ -13,7 +13,8 @@
     "test:watch": "jest --watch",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write 'src/**/*.ts'",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "clean": "rm -rf dist"
   },
   "keywords": [
     "llm",
@@ -25,18 +26,21 @@
     "ai",
     "machine-learning",
     "typescript",
-    "cli"
+    "cli",
+    "prompt-management",
+    "ai-tools"
   ],
-  "author": "Prompt Versioning Contributors <support@promptvc.dev>",
+  "author": "Prompt Versioning Contributors <esmaeilabedi@outlook.com>",
   "license": "AGPL-3.0-or-later",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/prompt-versioning-cli.git"
+    "url": "https://github.com/esmaeil-abedi-dev/prompt-versioning-cli.git",
+    "directory": "typescript"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/prompt-versioning-cli/issues"
+    "url": "https://github.com/esmaeil-abedi-dev/prompt-versioning-cli/issues"
   },
-  "homepage": "https://github.com/yourusername/prompt-versioning-cli#readme",
+  "homepage": "https://github.com/esmaeil-abedi-dev/prompt-versioning-cli#readme",
   "devDependencies": {
     "@types/jest": "^29.5.0",
     "@types/node": "^20.0.0",
@@ -55,6 +59,10 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
-  ]
+    "../LICENSE",
+    "../README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

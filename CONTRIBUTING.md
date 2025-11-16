@@ -358,7 +358,7 @@ By contributing, you agree that your contributions will be licensed under the MI
 
 - Check existing [issues](https://github.com/esmaeil-abedi-dev/prompt-versioning-cli/issues)
 - Ask in [discussions](https://github.com/esmaeil-abedi-dev/prompt-versioning-cli/discussions)
-- Email: <support@promptvc.dev>
+- Email: <esmaeilabedi@outlook.com>
 
 ---
 

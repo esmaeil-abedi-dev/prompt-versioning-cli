@@ -15,7 +15,7 @@ If you discover a security vulnerability, please do **NOT** create a public issu
 
 ### Reporting Process
 
-1. **Email**: Send details to security@promptvc.dev
+1. **Email**: Send details to esmaeilabedi@outlook.com
 2. **Include**:
    - Description of the vulnerability
    - Steps to reproduce
@@ -89,7 +89,7 @@ We currently do not have a bug bounty program, but we appreciate responsible dis
 
 ## Contact
 
-- **Security Email**: security@promptvc.dev
+- **Security Email**: esmaeilabedi@outlook.com
 - **GPG Key**: [Coming soon]
 
 ---

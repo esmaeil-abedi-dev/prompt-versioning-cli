@@ -1,0 +1,179 @@
+# Prompt Versioning CLI - Python Package
+
+[![PyPI version](https://badge.fury.io/py/prompt-versioning-cli.svg)](https://badge.fury.io/py/prompt-versioning-cli)
+[![Python Version](https://img.shields.io/pypi/pyversions/prompt-versioning-cli)](https://pypi.org/project/prompt-versioning-cli/)
+[![License](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](../LICENSE)
+
+Git-like version control for LLM prompts with lineage tracking, A/B testing, and compliance audit trails.
+
+## 🚀 Installation
+
+```bash
+pip install prompt-versioning-cli
+```
+
+**Requirements:** Python 3.9 or higher
+
+### Optional Features
+
+Install with agent features (natural language interface):
+
+```bash
+pip install prompt-versioning-cli[agent]
+```
+
+Install with all features including development tools:
+
+```bash
+pip install prompt-versioning-cli[all]
+```
+
+## 📦 What's Included
+
+When you install this package, you get:
+
+- **`promptvc` CLI**: The main command-line interface
+- **`promptvc-mcp` command**: MCP (Model Context Protocol) server
+- **Python API**: Import and use in your Python code
+- **Agent features**: Natural language interface (with `[agent]` extras)
+
+## 🎯 Quick Start
+
+```bash
+# Initialize a prompt repository
+promptvc init
+
+# Create a prompt interactively
+promptvc create-prompt
+
+# Or create non-interactively
+promptvc create-prompt --name my-prompt \
+  --system "You are a helpful assistant" \
+  --temperature 0.7 \
+  --non-interactive
+
+# Commit your prompt
+promptvc commit -m "Initial prompt" -f prompts/my-prompt.yaml
+
+# View history
+promptvc log
+
+# Use the natural language agent (requires [agent] extras)
+promptvc agent "show me the last 5 commits"
+```
+
+## 📖 Documentation
+
+- **[User Guide](../docs/USER_GUIDE.md)** - Complete feature documentation
+- **[Developer Guide](../docs/DEVELOPER_GUIDE.md)** - API reference and architecture
+- **[Quick Start](../docs/QUICKSTART.md)** - Step-by-step tutorial
+- **[Publishing Guide](../docs/PUBLISHING.md)** - How to contribute and publish
+
+## 🐍 Using the Python API
+
+```python
+from prompt_versioning.core.repository import PromptRepository
+from prompt_versioning.core.models import Prompt
+
+# Initialize repository
+repo = PromptRepository('.prompt-vc')
+repo.init()
+
+# Create a prompt
+prompt = Prompt(
+    name='my-prompt',
+    system_message='You are a helpful assistant',
+    user_template='Question: {question}',
+    temperature=0.7,
+)
+
+# Commit the prompt
+repo.commit(
+    message='Initial prompt',
+    files=['prompts/my-prompt.yaml']
+)
+
+# Get history
+history = repo.get_history()
+for commit in history:
+    print(f"{commit.hash}: {commit.message}")
+```
+
+## 🤖 Agent Features
+
+Install with agent support:
+
+```bash
+pip install prompt-versioning-cli[agent]
+```
+
+Use natural language to control your prompts:
+
+```bash
+# Talk to your prompt repository
+promptvc agent "create a new prompt for customer support"
+promptvc agent "show me what changed in the last commit"
+promptvc agent "rollback to the previous version"
+
+# Interactive mode
+promptvc agent --interactive
+```
+
+Supports multiple backends:
+- OpenAI (GPT-3.5, GPT-4, etc.)
+- Anthropic (Claude)
+- Ollama (local models)
+
+## 🔌 MCP Server
+
+Use with VSCode Copilot, Claude Desktop, Zed, and other MCP clients:
+
+```bash
+# Automatic setup
+promptvc mcp-setup --ide vscode
+promptvc mcp-setup --ide claude
+
+# Manual start
+promptvc mcp-server
+```
+
+## 🧪 Development
+
+Clone the repository and install in development mode:
+
+```bash
+git clone https://github.com/esmaeil-abedi-dev/prompt-versioning-cli.git
+cd prompt-versioning-cli/python
+
+# Install with development dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+
+# Run with coverage
+pytest --cov=prompt_versioning --cov-report=html
+```
+
+## 📝 License
+
+This project is licensed under the GNU Affero General Public License v3.0 or later (AGPL-3.0-or-later).
+
+See [LICENSE](../LICENSE) for details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](../CONTRIBUTING.md) for guidelines.
+
+## 🔗 Links
+
+- **Homepage**: https://github.com/esmaeil-abedi-dev/prompt-versioning-cli
+- **Documentation**: https://github.com/esmaeil-abedi-dev/prompt-versioning-cli/tree/main/docs
+- **Issue Tracker**: https://github.com/esmaeil-abedi-dev/prompt-versioning-cli/issues
+- **PyPI**: https://pypi.org/project/prompt-versioning-cli/
+
+## 💬 Support
+
+- **GitHub Issues**: For bug reports and feature requests
+- **GitHub Discussions**: For questions and community support
+- **Email**: esmaeilabedi@outlook.com

@@ -89,15 +89,39 @@ promptvc mcp-server
 
 ### Installation
 
-**Python (pip)**
+Choose your preferred language:
+
+#### Python (pip)
+
 ```bash
+# Install from PyPI
 pip install prompt-versioning-cli
+
+# Verify installation
+promptvc --version
+
+# Optional: Install with agent features
+pip install prompt-versioning-cli[agent]
 ```
 
-**Node.js (npm)**
+**Requirements:** Python 3.9+
+
+#### TypeScript/Node.js (npm)
+
 ```bash
+# Install globally
 npm install -g prompt-versioning-cli
+
+# Or install locally in your project
+npm install prompt-versioning-cli
+
+# Verify installation
+promptvc --version
 ```
+
+**Requirements:** Node.js 18+, npm 9+
+
+> 📚 **New to prompt versioning?** Check out our [Quick Start Guide](docs/QUICKSTART.md) for a step-by-step tutorial!
 
 ### 5-Minute Tutorial
 
