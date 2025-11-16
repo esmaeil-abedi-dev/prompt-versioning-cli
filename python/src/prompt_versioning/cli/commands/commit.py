@@ -7,8 +7,7 @@ Licensed under MIT License
 
 import click
 
-from ..core import get_repository
-from ..utils import error, parse_prompt_file
+from ..utils import ensure_repository, error, parse_prompt_file
 
 
 @click.command()
@@ -17,7 +16,7 @@ from ..utils import error, parse_prompt_file
 @click.option("-f", "--file", "file_option", required=False, help="Prompt file (YAML or JSON)")
 @click.option("--author", default="system", help="Commit author")
 @click.option("--path", default=".", help="Repository path")
-def commit(file_path: str, message: str, file_option: str, author: str, path: str):
+def commit(file_path: str, message: str, file_option: str, author: str, path: str) -> None:
     """Create a new commit with the given prompt.
 
     FILE_PATH can be provided as a positional argument or via -f/--file option.
@@ -34,7 +33,7 @@ def commit(file_path: str, message: str, file_option: str, author: str, path: st
         prompt_data, _ = parse_prompt_file(prompt_file)
 
         # Create commit
-        repo = get_repository(path)
+        repo = ensure_repository(path)
         commit_obj = repo.commit(message, prompt_data, author)
 
         # Get branch name (always "main" for now)

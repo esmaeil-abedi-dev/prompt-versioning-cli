@@ -21,7 +21,7 @@ from ..utils import error
 @click.option("--host", default="127.0.0.1", help="Host for HTTP transport (default: 127.0.0.1)")
 @click.option("--port", type=int, default=8080, help="Port for HTTP transport (default: 8080)")
 @click.option("--auth-token", help="Authentication token (or set PROMPTVC_MCP_TOKEN env var)")
-def mcp_server(path: str, transport: str, host: str, port: int, auth_token: Optional[str]):
+def mcp_server(path: str, transport: str, host: str, port: int, auth_token: Optional[str]) -> None:
     """
     Start the Model Context Protocol (MCP) server.
 
@@ -56,7 +56,7 @@ def mcp_server(path: str, transport: str, host: str, port: int, auth_token: Opti
             click.echo("   Authentication: Enabled")
 
         # Create server
-        server = PromptVCMCPServer(repo_path=Path(path), auth_token=auth_token)
+        server = PromptVCMCPServer(repo_path=str(Path(path).resolve()), auth_token=auth_token)
 
         # Run server based on transport
         if transport == "stdio":
@@ -65,7 +65,7 @@ def mcp_server(path: str, transport: str, host: str, port: int, auth_token: Opti
 
         elif transport == "http":
             click.echo(f"\n✓ Server running on http://{host}:{port} (press Ctrl+C to stop)")
-            asyncio.run(server.run_http(host=host, port=port))
+            asyncio.run(server.run_http(host=host, port=port))  # type: ignore[attr-defined]
 
     except ImportError as e:
         error(

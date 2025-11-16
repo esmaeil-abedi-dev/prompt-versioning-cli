@@ -66,6 +66,7 @@ Be concise, helpful, and precise. Format commands clearly so they can be extract
         self.conversation_history = conversation_history or []
 
         # Try to load repository
+        self.repo: Optional[PromptRepository]
         try:
             self.repo = PromptRepository(repo_path)
             self.repo_exists = self.repo.exists()
@@ -99,7 +100,7 @@ Be concise, helpful, and precise. Format commands clearly so they can be extract
 
     def _get_repo_status(self) -> str:
         """Get current repository status for system prompt."""
-        if not self.repo_exists:
+        if not self.repo_exists or not self.repo:
             return "Not initialized (needs 'promptvc init')"
 
         try:
@@ -163,7 +164,7 @@ Be concise, helpful, and precise. Format commands clearly so they can be extract
                     result[flag] = parts[i + 1].strip("'\"")
                     i += 2
                 else:
-                    result[flag] = True
+                    result[flag] = "true"
                     i += 1
             else:
                 i += 1
@@ -222,7 +223,7 @@ Be concise, helpful, and precise. Format commands clearly so they can be extract
                 message="I encountered an error processing your request.", error=str(e)
             )
 
-    def save_conversation(self, filepath: Path):
+    def save_conversation(self, filepath: Path) -> None:
         """Save conversation history to JSON file."""
         data = [
             {

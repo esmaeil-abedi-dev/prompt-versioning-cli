@@ -6,7 +6,7 @@ Licensed under MIT License
 """
 
 import os
-from typing import Optional
+from typing import Any, Optional
 
 from .base import LLMBackend
 
@@ -24,9 +24,9 @@ class AnthropicBackend(LLMBackend):
         """
         self.api_key = api_key or os.getenv("ANTHROPIC_API_KEY")
         self.model = model
-        self._client = None
+        self._client: Optional[Any] = None
 
-    def _get_client(self):
+    def _get_client(self) -> Any:
         """Lazy-load Anthropic client."""
         if self._client is None:
             try:
@@ -63,7 +63,8 @@ class AnthropicBackend(LLMBackend):
             messages=chat_messages,
         )
 
-        return response.content[0].text
+        result = response.content[0].text
+        return str(result)
 
     def is_available(self) -> bool:
         """Check if Anthropic backend is available."""

@@ -17,7 +17,7 @@ class FileSystemManager:
     def __init__(self, repo_path: Path):
         """Initialize file system manager."""
         self.repo_path = Path(repo_path)
-        self.prompt_vc_dir = self.repo_path / ".promptvc"
+        self.prompt_vc_dir = self.repo_path / ".prompt-vc"
 
         # Define subdirectories
         self.commits_dir = self.prompt_vc_dir / "commits"
@@ -31,7 +31,7 @@ class FileSystemManager:
 
     def initialize(self) -> None:
         """
-        Initialize the .promptvc directory structure.
+        Initialize the .prompt-vc directory structure.
 
         Raises:
             FileExistsError: If repository already exists

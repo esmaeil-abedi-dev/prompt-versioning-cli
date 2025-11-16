@@ -9,14 +9,14 @@ import json
 
 import click
 
-from ..core import get_repository
+from ..utils import ensure_repository
 
 
 @click.command()
 @click.option("--path", default=".", help="Repository path")
-def tags(path: str):
+def tags(path: str) -> None:
     """List all tags."""
-    repo = get_repository(path)
+    repo = ensure_repository(path)
     tag_list = repo.list_tags()
 
     if not tag_list:

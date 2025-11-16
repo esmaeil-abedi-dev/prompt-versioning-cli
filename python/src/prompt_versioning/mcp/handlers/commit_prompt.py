@@ -5,10 +5,10 @@ Copyright (c) 2025 Prompt Versioning Contributors
 Licensed under MIT License
 """
 
-from typing import Any
+from typing import Any, Optional
 
 
-async def handle_commit_prompt(repo, args: dict[str, Any]) -> dict[str, Any]:
+async def handle_commit_prompt(repo: Optional[Any], args: dict[str, Any]) -> dict[str, Any]:
     """Commit a prompt."""
     if not repo or not repo.exists():
         return {"success": False, "error": "Repository not initialized"}
@@ -23,6 +23,7 @@ async def handle_commit_prompt(repo, args: dict[str, Any]) -> dict[str, Any]:
         from pathlib import Path
 
         import yaml
+
         try:
             file_full_path = Path(repo.repo_path) / file_path
             with open(file_full_path) as f:

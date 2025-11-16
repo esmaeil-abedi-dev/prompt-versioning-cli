@@ -7,7 +7,7 @@ Licensed under MIT License
 
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import yaml
 
@@ -15,7 +15,9 @@ import yaml
 DEFAULT_PROMPTS_DIR = "prompts"
 
 
-def _generate_meaningful_name(system_prompt: str = None, user_template: str = None) -> str:
+def _generate_meaningful_name(
+    system_prompt: Optional[str] = None, user_template: Optional[str] = None
+) -> str:
     """
     Generate a meaningful filename from prompt content.
 
@@ -30,19 +32,40 @@ def _generate_meaningful_name(system_prompt: str = None, user_template: str = No
     text = system_prompt or user_template or "prompt"
 
     # Extract key words (lowercase, alphanumeric, convert spaces/underscores to hyphens)
-    words = re.findall(r'\b[a-z]+\b', text.lower())
+    words = re.findall(r"\b[a-z]+\b", text.lower())
 
     # Filter out common words and take first few meaningful ones
-    stop_words = {'you', 'are', 'a', 'an', 'the', 'is', 'to', 'for', 'and', 'or', 'your', 'with', 'in', 'on', 'at'}
+    stop_words = {
+        "you",
+        "are",
+        "a",
+        "an",
+        "the",
+        "is",
+        "to",
+        "for",
+        "and",
+        "or",
+        "your",
+        "with",
+        "in",
+        "on",
+        "at",
+    }
     meaningful_words = [w for w in words if w not in stop_words and len(w) > 2][:3]
 
     if meaningful_words:
-        return '-'.join(meaningful_words)
+        return "-".join(meaningful_words)
 
     return "prompt"
 
 
-async def handle_create_prompt(repo, args: dict[str, Any], repo_path=None, server=None) -> dict[str, Any]:
+async def handle_create_prompt(
+    repo: Optional[Any],
+    args: dict[str, Any],
+    repo_path: Optional[str] = None,
+    server: Optional[Any] = None,
+) -> dict[str, Any]:
     """
     Create or update a prompt YAML file.
 
@@ -75,7 +98,7 @@ async def handle_create_prompt(repo, args: dict[str, Any], repo_path=None, serve
             else:
                 return {
                     "success": False,
-                    "error": "Either 'file' or 'name' must be provided, or include 'system' or 'user_template' to auto-generate a name"
+                    "error": "Either 'file' or 'name' must be provided, or include 'system' or 'user_template' to auto-generate a name",
                 }
 
         if not file_path:
@@ -89,11 +112,11 @@ async def handle_create_prompt(repo, args: dict[str, Any], repo_path=None, serve
 
         # If the path doesn't include a directory and doesn't start with ./
         # automatically place it in the prompts directory
-        if not file_path.parent.name and file_path.parent == Path('.'):
+        if not file_path.parent.name and file_path.parent == Path("."):
             file_path = Path(DEFAULT_PROMPTS_DIR) / file_path
 
         # Check if file exists and handle append mode
-        existing_data = {}
+        existing_data: dict[str, Any] = {}
         append = args.get("append", False)
 
         if file_path.exists():

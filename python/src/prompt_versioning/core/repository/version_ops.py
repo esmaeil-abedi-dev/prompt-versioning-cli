@@ -94,4 +94,6 @@ class VersionOperations:
 
         # Load and return version
         prompt = self.storage.load_prompt(commit.prompt_hash)
+        if not prompt:
+            raise ValueError(f"Prompt not found for commit {commit.short_hash()}")
         return PromptVersion(commit=commit, prompt=prompt)

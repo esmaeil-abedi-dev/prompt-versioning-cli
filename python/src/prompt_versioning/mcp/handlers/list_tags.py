@@ -5,10 +5,10 @@ Copyright (c) 2025 Prompt Versioning Contributors
 Licensed under MIT License
 """
 
-from typing import Any
+from typing import Any, Optional
 
 
-async def handle_list_tags(repo, args: dict[str, Any]) -> dict[str, Any]:
+async def handle_list_tags(repo: Optional[Any], args: dict[str, Any]) -> dict[str, Any]:
     """List all tags."""
     if not repo or not repo.exists():
         return {
@@ -40,7 +40,11 @@ async def handle_list_tags(repo, args: dict[str, Any]) -> dict[str, Any]:
                 f"  Created: {tag.created_at.strftime('%Y-%m-%d %H:%M:%S')}{metadata_str}"
             )
 
-        display = "\n\n".join(display_lines) if tag_list else "No tags yet. Use 'promptvc tag' to create experiment tags."
+        display = (
+            "\n\n".join(display_lines)
+            if tag_list
+            else "No tags yet. Use 'promptvc tag' to create experiment tags."
+        )
 
         return {"success": True, "count": len(tag_list), "tags": tag_list, "display": display}
     except Exception as e:

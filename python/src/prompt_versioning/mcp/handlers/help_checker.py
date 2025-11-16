@@ -80,7 +80,7 @@ def format_help_display(help_info: dict, success_message: str = "") -> str:
             for option_line in help_info["options_preview"]:
                 parts.append(option_line)
 
-        parts.append("\n" + "="*60 + "\n")
+        parts.append("\n" + "=" * 60 + "\n")
     elif help_info.get("error"):
         parts.append(f"⚠️ Help check failed: {help_info['error']}\n")
 

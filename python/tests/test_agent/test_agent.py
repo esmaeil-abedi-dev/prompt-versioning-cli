@@ -60,8 +60,26 @@ class TestAgentInitialization:
         assert agent.repo_path == temp_repo
         assert len(agent.conversation_history) == 0
 
-    def test_agent_auto_detect_backend_failure(self, temp_repo):
+    def test_agent_auto_detect_backend_failure(self, temp_repo, monkeypatch):
         """Test agent backend auto-detection failure."""
+
+        # Mock all backends to be unavailable
+        def mock_unavailable(*args, **kwargs):
+            return False
+
+        monkeypatch.setattr(
+            "prompt_versioning.agent.backends.openai_backend.OpenAIBackend.is_available",
+            mock_unavailable,
+        )
+        monkeypatch.setattr(
+            "prompt_versioning.agent.backends.anthropic_backend.AnthropicBackend.is_available",
+            mock_unavailable,
+        )
+        monkeypatch.setattr(
+            "prompt_versioning.agent.backends.ollama_backend.OllamaBackend.is_available",
+            mock_unavailable,
+        )
+
         with pytest.raises(RuntimeError, match="No LLM backend available"):
             PromptVCAgent(repo_path=str(temp_repo))
 

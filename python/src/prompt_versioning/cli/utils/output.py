@@ -6,6 +6,7 @@ Licensed under MIT License
 """
 
 import sys
+from typing import NoReturn
 
 import click
 
@@ -15,7 +16,7 @@ def success(message: str) -> None:
     click.echo(f"✓ {message}")
 
 
-def error(message: str, exit_code: int = 1) -> None:
+def error(message: str, exit_code: int = 1) -> NoReturn:
     """Print error message and exit."""
     click.echo(f"✗ {message}", err=True)
     sys.exit(exit_code)

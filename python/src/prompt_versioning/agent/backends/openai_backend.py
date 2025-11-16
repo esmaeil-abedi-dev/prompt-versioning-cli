@@ -6,7 +6,7 @@ Licensed under MIT License
 """
 
 import os
-from typing import Optional
+from typing import Any, Optional
 
 from .base import LLMBackend
 
@@ -24,9 +24,9 @@ class OpenAIBackend(LLMBackend):
         """
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         self.model = model
-        self._client = None
+        self._client: Optional[Any] = None
 
-    def _get_client(self):
+    def _get_client(self) -> Any:
         """Lazy-load OpenAI client."""
         if self._client is None:
             try:
@@ -49,7 +49,8 @@ class OpenAIBackend(LLMBackend):
             model=self.model, messages=messages, temperature=temperature, max_tokens=max_tokens
         )
 
-        return response.choices[0].message.content
+        result = response.choices[0].message.content
+        return str(result) if result else ""
 
     def is_available(self) -> bool:
         """Check if OpenAI backend is available."""

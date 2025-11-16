@@ -6,6 +6,7 @@ Licensed under MIT License
 """
 
 import pytest
+
 from prompt_versioning.mcp.handlers.command_helper import CommandFlag, CommandHelper, CommandInfo
 from prompt_versioning.mcp.handlers.execute_command import handle_execute_command
 
@@ -170,7 +171,7 @@ class TestExecuteCommandHandler:
                 "command": "status",
                 "parameters": {},
                 "check_help": True,
-            }
+            },
         )
 
         # Basic structure checks
@@ -189,7 +190,7 @@ class TestExecuteCommandHandler:
                 "command": "status",
                 "parameters": {},
                 "check_help": False,
-            }
+            },
         )
 
         # Should not have command_info when check_help is False
@@ -204,7 +205,7 @@ class TestExecuteCommandHandler:
                 "command": "status",
                 "parameters": {},
                 "check_help": True,
-            }
+            },
         )
 
         display = result.get("display", "")

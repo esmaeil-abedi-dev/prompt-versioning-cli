@@ -7,14 +7,14 @@ Licensed under MIT License
 
 import click
 
-from ..core import get_repository
+from ..utils import ensure_repository
 
 
 @click.command()
 @click.option("--path", default=".", help="Repository path")
-def status(path: str):
+def status(path: str) -> None:
     """Show repository status."""
-    repo = get_repository(path)
+    repo = ensure_repository(path)
 
     if not repo.exists():
         click.echo("✗ Not a prompt repository (run 'promptvc init')")

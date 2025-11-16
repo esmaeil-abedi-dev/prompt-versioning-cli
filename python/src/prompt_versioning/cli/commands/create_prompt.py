@@ -6,7 +6,7 @@ Licensed under MIT License
 """
 
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 import click
 import yaml
@@ -37,7 +37,7 @@ def create_prompt(
     top_p: Optional[float],
     stop_sequences: Optional[str],
     append: bool,
-):
+) -> None:
     """
     🎨 Create or update prompt YAML files interactively.
 
@@ -60,15 +60,17 @@ def create_prompt(
                 type=str,
             )
 
+        # file is now guaranteed to be str
+        assert file is not None
         file_path_obj = Path(file)
 
         # If the path doesn't include a directory and doesn't start with ./
         # automatically place it in the prompts directory
-        if not file_path_obj.parent.name and file_path_obj.parent == Path('.'):
+        if not file_path_obj.parent.name and file_path_obj.parent == Path("."):
             file_path_obj = Path(DEFAULT_PROMPTS_DIR) / file_path_obj
 
         # Check if file exists and handle append mode
-        existing_data = {}
+        existing_data: dict[str, Any] = {}
         if file_path_obj.exists():
             if append:
                 with open(file_path_obj) as f:
@@ -86,8 +88,16 @@ def create_prompt(
         prompt_data = existing_data.copy()
 
         # Check if any flags were provided (non-interactive mode)
-        has_flags = any([system, user_template, temperature is not None,
-                        max_tokens is not None, top_p is not None, stop_sequences])
+        has_flags = any(
+            [
+                system,
+                user_template,
+                temperature is not None,
+                max_tokens is not None,
+                top_p is not None,
+                stop_sequences,
+            ]
+        )
 
         if has_flags:
             # Use provided options only (non-interactive mode)

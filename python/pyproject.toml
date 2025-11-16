@@ -60,6 +60,7 @@ agent = [
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
     "black>=23.0.0",
     "ruff>=0.1.0",
     "mypy>=1.0.0",
@@ -93,6 +94,7 @@ python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test_*"
 addopts = "-v --cov=prompt_versioning --cov-report=term-missing"
+asyncio_default_fixture_loop_scope = "function"
 
 [tool.black]
 line-length = 100

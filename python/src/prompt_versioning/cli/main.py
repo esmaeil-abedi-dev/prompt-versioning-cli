@@ -26,7 +26,7 @@ from .commands import (
 
 @click.group()
 @click.version_option(version="1.0.0", prog_name="promptvc")
-def cli():
+def cli() -> None:
     """
     Prompt Version Control - Git-like version control for LLM prompts.
 
@@ -51,7 +51,7 @@ cli.add_command(mcp_server)
 cli.add_command(mcp_setup)
 
 
-def main():
+def main() -> None:
     """Entry point for the CLI."""
     cli()
 

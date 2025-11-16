@@ -5,10 +5,10 @@ Copyright (c) 2025 Prompt Versioning Contributors
 Licensed under MIT License
 """
 
-from typing import Any
+from typing import Any, Optional
 
 
-async def handle_get_status(repo, args: dict[str, Any]) -> dict[str, Any]:
+async def handle_get_status(repo: Optional[Any], args: dict[str, Any]) -> dict[str, Any]:
     """Get repository status."""
     if not repo or not repo.exists():
         return {

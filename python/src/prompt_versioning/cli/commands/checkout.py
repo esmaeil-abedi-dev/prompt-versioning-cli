@@ -12,8 +12,7 @@ from typing import Optional
 import click
 import yaml
 
-from ..core import get_repository
-from ..utils import error
+from ..utils import ensure_repository, error
 
 
 @click.command()
@@ -22,14 +21,16 @@ from ..utils import error
 @click.option("--path", default=".", help="Repository path")
 @click.option("--output", "-o", help="Write prompt to specific file")
 @click.option("--no-write", is_flag=True, help="Don't write to file, just show info")
-def checkout(commit_ref: str, file_path: Optional[str], path: str, output: Optional[str], no_write: bool):
+def checkout(
+    commit_ref: str, file_path: Optional[str], path: str, output: Optional[str], no_write: bool
+) -> None:
     """Checkout a specific commit.
 
     FILE_PATH: Optional file to write the checked-out prompt to.
     If not specified and --no-write is not set, will prompt for filename.
     """
     try:
-        repo = get_repository(path)
+        repo = ensure_repository(path)
         version = repo.checkout(commit_ref)
 
         click.echo(f"✓ Checked out commit {version.commit.short_hash()}")
@@ -44,6 +45,8 @@ def checkout(commit_ref: str, file_path: Optional[str], path: str, output: Optio
                 # Prompt for filename if not provided
                 output_file = click.prompt("Enter filename to write prompt", default="prompt.yaml")
 
+            # output_file is now guaranteed to be str
+            assert output_file is not None
             output_path = Path(output_file)
             prompt_data = version.prompt.model_dump(exclude_none=True)
 

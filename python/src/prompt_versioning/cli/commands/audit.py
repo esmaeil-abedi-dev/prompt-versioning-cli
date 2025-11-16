@@ -5,13 +5,13 @@ Copyright (c) 2025 Prompt Versioning Contributors
 Licensed under MIT License
 """
 
+import json
 from pathlib import Path
 from typing import Optional
 
 import click
 
-from ..core import get_repository
-from ..utils import success
+from ..utils import ensure_repository, success
 
 
 @click.command()
@@ -24,13 +24,16 @@ from ..utils import success
 )
 @click.option("--output", "-o", help="Output file path")
 @click.option("--path", default=".", help="Repository path")
-def audit(format_type: str, output: Optional[str], path: str):
+def audit(format_type: str, output: Optional[str], path: str) -> None:
     """Generate compliance audit log."""
-    repo = get_repository(path)
+    repo = ensure_repository(path)
     audit_data = repo.audit_log(format=format_type.lower())
 
+    # Convert to string if necessary
+    audit_str = audit_data if isinstance(audit_data, str) else json.dumps(audit_data, indent=2)
+
     if output:
-        Path(output).write_text(audit_data)
+        Path(output).write_text(audit_str)
         success(f"Exported audit log to {output}")
     else:
-        click.echo(audit_data)
+        click.echo(audit_str)

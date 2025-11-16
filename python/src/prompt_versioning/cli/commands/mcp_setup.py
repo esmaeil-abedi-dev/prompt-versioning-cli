@@ -25,7 +25,7 @@ from ..utils import error, info, success
 @click.option("--path", default=".", help="Repository path (default: current directory)")
 @click.option("--output", "-o", help="Output file path (default: IDE-specific location)")
 @click.option("--init", is_flag=True, help="Initialize repository if it doesn't exist")
-def mcp_setup(ide: str, path: str, output: Optional[str], init: bool):
+def mcp_setup(ide: str, path: str, output: Optional[str], init: bool) -> None:
     """
     Generate MCP server configuration files for different IDEs.
 
@@ -57,6 +57,7 @@ def mcp_setup(ide: str, path: str, output: Optional[str], init: bool):
 
         # Check if repository exists
         from ...core import PromptRepository
+
         repo_exists = (repo_path / ".promptvc").exists()
 
         if not repo_exists:

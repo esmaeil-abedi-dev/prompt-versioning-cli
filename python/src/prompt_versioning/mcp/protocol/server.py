@@ -88,9 +88,13 @@ class PromptVCMCPServer:
 
         # Tool handlers
         self.tool_handlers: dict[str, Callable] = {
-            "promptvc_init_repository": lambda args: handle_init_repository(self.repo, args, self.repo_path, self),
+            "promptvc_init_repository": lambda args: handle_init_repository(
+                self.repo, args, str(self.repo_path), self
+            ),
             "promptvc_commit": lambda args: handle_commit_prompt(self.repo, args),
-            "promptvc_create_prompt": lambda args: handle_create_prompt(self.repo, args, self.repo_path, self),
+            "promptvc_create_prompt": lambda args: handle_create_prompt(
+                self.repo, args, str(self.repo_path), self
+            ),
             "promptvc_get_history": lambda args: handle_get_history(self.repo, args),
             "promptvc_diff": lambda args: handle_diff_versions(self.repo, args),
             "promptvc_checkout": lambda args: handle_checkout_version(self.repo, args),
@@ -154,7 +158,7 @@ class PromptVCMCPServer:
 
         # Execute the handler
         handler = self.tool_handlers[tool_name]
-        result = await handler(arguments)
+        result: dict[str, Any] = await handler(arguments)
 
         # Add help info to result if not already present and if we checked help
         if help_info and isinstance(result, dict):
@@ -178,27 +182,9 @@ class PromptVCMCPServer:
                     result["display"] = help_prefix + "\n" + existing_display
 
         # Format response according to MCP protocol
-        # The result should be wrapped in a content array with proper formatting
-        if isinstance(result, dict) and "display" in result:
-            return {
-                "content": [
-                    {
-                        "type": "text",
-                        "text": result.get("display", ""),
-                    }
-                ],
-                "_meta": result,  # Include full result for reference
-            }
-
-        # Fallback for results without display field
-        return {
-            "content": [
-                {
-                    "type": "text",
-                    "text": json.dumps(result, indent=2),
-                }
-            ]
-        }
+        # Return the result directly for compatibility with tests and clients
+        # The MCP protocol wrapper will add content formatting at the JSON-RPC level
+        return result
 
     async def handle_resources_list(self, params: dict[str, Any]) -> dict[str, Any]:
         """List available resources."""
@@ -248,7 +234,10 @@ class PromptVCMCPServer:
             if "method" not in request_data:
                 return MCPResponse(
                     id=request_data.get("id"),
-                    error={"code": self.INVALID_REQUEST, "message": "Missing required field: method"}
+                    error={
+                        "code": self.INVALID_REQUEST,
+                        "message": "Missing required field: method",
+                    },
                 )
 
             request = MCPRequest(**request_data)
@@ -323,7 +312,7 @@ class PromptVCMCPServer:
 
         return json.dumps(response_dict)
 
-    async def run_stdio(self):
+    async def run_stdio(self) -> None:
         """Run server in stdio mode."""
         logger.info("MCP server starting in stdio mode")
 
@@ -362,7 +351,7 @@ class PromptVCMCPServer:
         logger.info("MCP server shutting down")
 
 
-def main():
+def main() -> None:
     """Entry point for MCP server."""
     import argparse
 

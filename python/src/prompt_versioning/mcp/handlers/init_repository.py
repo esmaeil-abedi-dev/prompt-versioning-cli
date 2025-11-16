@@ -5,10 +5,15 @@ Copyright (c) 2025 Prompt Versioning Contributors
 Licensed under MIT License
 """
 
-from typing import Any
+from typing import Any, Optional
 
 
-async def handle_init_repository(repo, args: dict[str, Any], repo_path=None, server=None) -> dict[str, Any]:
+async def handle_init_repository(
+    repo: Optional[Any],
+    args: dict[str, Any],
+    repo_path: Optional[str] = None,
+    server: Optional[Any] = None,
+) -> dict[str, Any]:
     """Initialize repository."""
     from pathlib import Path
 

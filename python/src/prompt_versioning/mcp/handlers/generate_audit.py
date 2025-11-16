@@ -5,10 +5,10 @@ Copyright (c) 2025 Prompt Versioning Contributors
 Licensed under MIT License
 """
 
-from typing import Any
+from typing import Any, Optional
 
 
-async def handle_generate_audit(repo, args: dict[str, Any]) -> dict[str, Any]:
+async def handle_generate_audit(repo: Optional[Any], args: dict[str, Any]) -> dict[str, Any]:
     """Generate audit log."""
     if not repo or not repo.exists():
         return {"success": False, "error": "Repository not initialized"}

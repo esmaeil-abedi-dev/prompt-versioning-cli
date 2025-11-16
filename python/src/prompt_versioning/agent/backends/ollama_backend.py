@@ -5,6 +5,8 @@ Copyright (c) 2025 Prompt Versioning Contributors
 Licensed under MIT License
 """
 
+from typing import Any
+
 from .base import LLMBackend
 
 
@@ -47,7 +49,8 @@ class OllamaBackend(LLMBackend):
         )
 
         response.raise_for_status()
-        return response.json()["response"]
+        result: dict[str, Any] = response.json()
+        return str(result["response"])
 
     def _format_messages(self, messages: list[dict[str, str]]) -> str:
         """Convert chat messages to a single prompt string."""
@@ -64,6 +67,7 @@ class OllamaBackend(LLMBackend):
             import requests
 
             response = requests.get(f"{self.host}/api/tags", timeout=2)
-            return response.status_code == 200
+            is_available: bool = response.status_code == 200
+            return is_available
         except Exception:
             return False

@@ -6,7 +6,7 @@ Licensed under MIT License
 """
 
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 import click
 
@@ -40,7 +40,7 @@ def agent(
     load_conversation: Optional[str],
     path: str,
     create_prompt: bool,
-):
+) -> None:
     """
     🤖 LLM-powered conversational interface for prompt versioning.
 
@@ -62,7 +62,7 @@ def agent(
         # Handle --create-prompt flag
         if create_prompt:
             # Initialize backend
-            llm_backend = None
+            llm_backend: Optional[Any] = None
             if backend != "auto":
                 if backend == "openai":
                     llm_backend = OpenAIBackend(model=model or "gpt-4")
@@ -145,7 +145,7 @@ def agent(
         error(str(e))
 
 
-def _run_interactive_agent(agent_obj, repo_path: str):
+def _run_interactive_agent(agent_obj: Any, repo_path: str) -> None:
     """Run interactive REPL mode for the agent."""
     click.echo("Interactive mode (type 'exit', 'quit', or press Ctrl+C to exit)\n")
 
@@ -187,7 +187,7 @@ def _run_interactive_agent(agent_obj, repo_path: str):
             click.echo(f"\n✗ Error: {e}\n", err=True)
 
 
-def _run_create_prompt_mode(agent_obj, repo_path: str):
+def _run_create_prompt_mode(agent_obj: Any, repo_path: str) -> None:
     """Run interactive mode specifically for prompt creation."""
     click.echo("💡 Prompt Creation Mode - Answer the agent's questions to create your prompt\n")
     click.echo("   (type 'exit', 'quit', or press Ctrl+C to cancel)\n")
@@ -220,9 +220,7 @@ def _run_create_prompt_mode(agent_obj, repo_path: str):
                         click.echo("\n✨ Prompt file created successfully!")
                         break
                     else:
-                        click.echo(
-                            "Let's refine it. Tell me what you'd like to change.\n"
-                        )
+                        click.echo("Let's refine it. Tell me what you'd like to change.\n")
                         continue
                 else:
                     # Other commands

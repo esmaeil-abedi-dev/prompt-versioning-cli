@@ -7,7 +7,12 @@ Licensed under MIT License
 
 from .execution import execute_shell_command
 from .output import error, info, section, success, warning
-from .validation import parse_json_string, parse_prompt_file, validate_file_exists
+from .validation import (
+    ensure_repository,
+    parse_json_string,
+    parse_prompt_file,
+    validate_file_exists,
+)
 
 __all__ = [
     "success",
@@ -15,6 +20,7 @@ __all__ = [
     "warning",
     "info",
     "section",
+    "ensure_repository",
     "validate_file_exists",
     "parse_prompt_file",
     "parse_json_string",

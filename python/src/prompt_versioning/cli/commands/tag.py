@@ -10,8 +10,7 @@ from typing import Optional
 
 import click
 
-from ..core import get_repository
-from ..utils import error, parse_json_string
+from ..utils import ensure_repository, error, parse_json_string
 
 
 @click.command()
@@ -20,7 +19,13 @@ from ..utils import error, parse_json_string
 @click.option("--commit", "commit_option", help="Commit to tag (default: HEAD)")
 @click.option("--metadata", help="Experiment metadata (JSON string)")
 @click.option("--path", default=".", help="Repository path")
-def tag(tag_name: str, commit_hash: Optional[str], commit_option: Optional[str], metadata: Optional[str], path: str):
+def tag(
+    tag_name: str,
+    commit_hash: Optional[str],
+    commit_option: Optional[str],
+    metadata: Optional[str],
+    path: str,
+) -> None:
     """Create a tag for an experiment.
 
     COMMIT_HASH can be provided as a positional argument or via --commit option.
@@ -35,7 +40,7 @@ def tag(tag_name: str, commit_hash: Optional[str], commit_option: Optional[str],
         if metadata:
             metadata_dict = parse_json_string(metadata, "metadata")
 
-        repo = get_repository(path)
+        repo = ensure_repository(path)
         tag_obj = repo.tag(tag_name, commit, metadata_dict)
 
         click.echo(f"✓ Tagged {tag_obj.commit_hash[:7]} as '{tag_name}'")

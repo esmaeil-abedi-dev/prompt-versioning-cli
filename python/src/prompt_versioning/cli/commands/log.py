@@ -9,16 +9,16 @@ from typing import Optional
 
 import click
 
-from ..core import get_repository
+from ..utils import ensure_repository
 
 
 @click.command()
 @click.option("--max-count", "-n", type=int, help="Limit number of commits")
 @click.option("--oneline", is_flag=True, help="Show condensed output")
 @click.option("--path", default=".", help="Repository path")
-def log(max_count: Optional[int], oneline: bool, path: str):
+def log(max_count: Optional[int], oneline: bool, path: str) -> None:
     """Show commit history."""
-    repo = get_repository(path)
+    repo = ensure_repository(path)
     versions = repo.log(max_count)
 
     if not versions:

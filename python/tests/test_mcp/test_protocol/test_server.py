@@ -263,6 +263,7 @@ class TestToolHandlers:
         prompt_path.write_text("system: Hello world v1")
         repo = PromptRepository(initialized_server.repo_path)
         import yaml
+
         with open(prompt_path) as f:
             prompt_data = yaml.safe_load(f)
         commit1 = repo.commit(message="Version 1", prompt_data=prompt_data, author="system")
@@ -270,6 +271,7 @@ class TestToolHandlers:
 
         prompt_path.write_text("system: Hello world v2")
         import yaml
+
         with open(prompt_path) as f:
             prompt_data = yaml.safe_load(f)
         commit2 = repo.commit(message="Version 2", prompt_data=prompt_data, author="system")
@@ -302,6 +304,7 @@ class TestToolHandlers:
 
         repo = PromptRepository(initialized_server.repo_path)
         import yaml
+
         with open(prompt_path) as f:
             prompt_data = yaml.safe_load(f)
         commit1 = repo.commit(message="Version 1", prompt_data=prompt_data, author="system")
@@ -310,9 +313,6 @@ class TestToolHandlers:
         # Make another commit
         prompt_path.write_text("system: Hello world v2")
         import yaml
-
-
-
 
         # Checkout first version
         request_data = {
@@ -343,6 +343,7 @@ class TestToolHandlers:
 
         repo = PromptRepository(initialized_server.repo_path)
         import yaml
+
         with open(prompt_path) as f:
             prompt_data = yaml.safe_load(f)
         commit = repo.commit(message="Initial commit", prompt_data=prompt_data, author="system")
@@ -377,6 +378,7 @@ class TestToolHandlers:
 
         repo = PromptRepository(initialized_server.repo_path)
         import yaml
+
         with open(prompt_path) as f:
             prompt_data = yaml.safe_load(f)
         commit = repo.commit(message="Initial commit", prompt_data=prompt_data, author="system")

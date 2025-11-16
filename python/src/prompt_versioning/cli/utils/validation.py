@@ -11,6 +11,7 @@ from typing import Any
 
 import yaml
 
+from ...core.repository import PromptRepository
 from .output import error
 
 
@@ -53,6 +54,24 @@ def parse_prompt_file(file_path: str) -> tuple[dict[str, Any], str]:
 def parse_json_string(json_str: str, field_name: str = "JSON") -> dict[str, Any]:
     """Parse JSON string and handle errors."""
     try:
-        return json.loads(json_str)
+        data: dict[str, Any] = json.loads(json_str)
+        return data
     except json.JSONDecodeError:
         error(f"Invalid {field_name}")
+
+
+def ensure_repository(path: str = ".") -> PromptRepository:
+    """Ensure a repository exists at the path.
+
+    Returns:
+        PromptRepository instance
+
+    Raises:
+        Exits with error if repository doesn't exist
+    """
+    from ..core import get_repository
+
+    repo = get_repository(path)
+    if not repo or not repo.exists():
+        error(f"No repository found at {path}. Run 'prompt init' first.")
+    return repo
